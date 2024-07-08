@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/button/app_button.dart';
-import 'package:simple_sns_app/utils/link_utils.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({super.key});

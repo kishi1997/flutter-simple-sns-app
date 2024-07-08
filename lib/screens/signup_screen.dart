@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
+import 'package:simple_sns_app/utils/link_utils.dart';
 import 'package:simple_sns_app/widgets/form/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -45,7 +46,8 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        // リンクを貼って遷移する処理
+                        launchURL(
+                            'https://anycloud.notion.site/a260154689f841a093bab65716ea6fc4?pvs=4');
                       },
                   ),
                   const TextSpan(
@@ -60,7 +62,8 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        // リンクを貼って遷移する処理
+                        launchURL(
+                            'https://anycloud.notion.site/e91dc1d372554c8e9168c47f95a1d850?pvs=4');
                       },
                   ),
                   const TextSpan(
