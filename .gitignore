@@ -43,5 +43,5 @@ app.*.map.json
 /android/app/release
 
 macos
-/windows
-/linux
+windows
+linux
