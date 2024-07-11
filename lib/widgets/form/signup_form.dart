@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/button/app_button.dart';
-import 'package:simple_sns_app/domain/account/account_repository.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
-import 'package:simple_sns_app/utils/api.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class SignupForm extends StatefulWidget {
@@ -16,7 +14,6 @@ class SignupFormState extends State<SignupForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late AccountService _accountService;
 
   String? _nameErrorText;
   String? _emailErrorText;
@@ -34,9 +31,6 @@ class SignupFormState extends State<SignupForm> {
     _nameController.addListener(() => _validateField('name'));
     _emailController.addListener(() => _validateField('email'));
     _passwordController.addListener(() => _validateField('password'));
-    final apiClient = ApiClient();
-    final userRepository = AccountRepository(apiClient);
-    _accountService = AccountService(userRepository);
   }
 
   @override
@@ -77,7 +71,10 @@ class SignupFormState extends State<SignupForm> {
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
@@ -88,7 +85,7 @@ class SignupFormState extends State<SignupForm> {
     final password = _passwordController.text;
 
     try {
-      await _accountService.signup(name, email, password);
+      await AccountService().signup(name, email, password);
       _showSnackBar('success');
     } catch (e) {
       _showSnackBar('Failed to signup');

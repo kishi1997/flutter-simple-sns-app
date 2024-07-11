@@ -8,6 +8,7 @@ class ApiClient {
           baseUrl: dotenv.get('API_BASE_URL'),
           headers: headers,
         ));
-
   Dio get dio => _dio;
 }
+
+final apiClient = ApiClient();
