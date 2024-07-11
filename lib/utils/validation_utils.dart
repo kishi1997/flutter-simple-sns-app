@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class CustomValidators {
   static String? validateUsername(String? value) {
     if (value == null || value.isEmpty) {
@@ -27,4 +29,9 @@ class CustomValidators {
     }
     return null;
   }
+}
+
+// バリデーション結果判定用の関数
+bool isValid(String? errorText, TextEditingController controller) {
+  return errorText == null && controller.text.isNotEmpty;
 }
