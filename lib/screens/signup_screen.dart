@@ -67,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         await moveToLink(
-                            '60154689f841a093bab65716ea6fc4?pvs=4');
+                            'https://anycloud.notion.site/a260154689f841a093bab65716ea6fc4?pvs=4');
                       },
                   ),
                   const TextSpan(
