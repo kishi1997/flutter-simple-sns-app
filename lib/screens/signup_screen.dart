@@ -8,6 +8,22 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    void showSnackBar(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+    }
+
+    Future<void> moveToLink(String url) async {
+      try {
+        await launchURL(url);
+      } catch (e) {
+        showSnackBar('Failed to launch url');
+      }
+    }
+
     return Scaffold(
       appBar: const AppHeader(title: 'アカウント作成'),
       body: Padding(
@@ -45,8 +61,8 @@ class SignUpScreen extends StatelessWidget {
                       color: Colors.blue,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchURL(
+                      ..onTap = () async {
+                        await moveToLink(
                             'https://anycloud.notion.site/a260154689f841a093bab65716ea6fc4?pvs=4');
                       },
                   ),
@@ -61,8 +77,8 @@ class SignUpScreen extends StatelessWidget {
                       color: Colors.blue,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchURL(
+                      ..onTap = () async {
+                        await moveToLink(
                             'https://anycloud.notion.site/e91dc1d372554c8e9168c47f95a1d850?pvs=4');
                       },
                   ),

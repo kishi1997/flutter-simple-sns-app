@@ -6,9 +6,9 @@ Future<void> launchURL(String url) async {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      throw 'Cannot launch URL';
+      throw Exception('Cannot launch URL');
     }
   } catch (e) {
-    throw 'Failed to launch $url: $e';
+    throw Exception('Failed to launch $url: $e');
   }
 }
