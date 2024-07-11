@@ -31,7 +31,6 @@ class CustomValidators {
   }
 }
 
-// バリデーション結果判定用の関数
-bool isValid(String? errorText, TextEditingController controller) {
+bool isFormFieldValid(String? errorText, TextEditingController controller) {
   return errorText == null && controller.text.isNotEmpty;
 }
