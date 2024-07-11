@@ -23,8 +23,8 @@ class SignUpScreen extends StatelessWidget {
       try {
         await launchURL(url);
       } catch (e) {
-        logger.e('Failed to launch url $e');
-        showSnackBar('Failed to launch url');
+        logger.e(e);
+        showSnackBar('エラーが発生しました。しばらく経ってからもう一度お試しください。');
       }
     }
 
