@@ -22,8 +22,7 @@ class SignupFormState extends State<SignupForm> {
   bool _isValidName = false;
   bool _isValidEmail = false;
   bool _isValidPassword = false;
-
-  bool _isSubmitButtonEnabled = false;
+  bool _isFormValid = false;
 
   @override
   void initState() {
@@ -56,16 +55,8 @@ class SignupFormState extends State<SignupForm> {
         _isValidPassword =
             isFormFieldValid(_passwordErrorText, _passwordController);
       }
-      _updateButtonState();
     });
-  }
-
-  bool _isAllValid() {
-    return _isValidName && _isValidEmail && _isValidPassword;
-  }
-
-  void _updateButtonState() {
-    _isSubmitButtonEnabled = _isAllValid();
+    _isFormValid = _isValidName && _isValidEmail && _isValidPassword;
   }
 
   void _showSnackBar(String message) {
@@ -127,12 +118,12 @@ class SignupFormState extends State<SignupForm> {
         const SizedBox(height: 32),
         AppButton(
           text: 'はじめる',
-          onPressed: _isSubmitButtonEnabled
+          onPressed: _isFormValid
               ? () {
                   _signup();
                 }
               : null,
-          backgroundColor: _isSubmitButtonEnabled
+          backgroundColor: _isFormValid
               ? Theme.of(context).primaryColor
               : Colors.grey,
           textColor: Colors.white,

@@ -1,9 +1,10 @@
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
+  final Uri uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
   } else {
-    throw 'Failed to launch $url';
+    throw Exception('Failed to launch $url');
   }
 }
