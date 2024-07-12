@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/screens/signin_screen.dart';
+import 'package:simple_sns_app/utils/navigation_utils.dart';
 import '../components/button/app_button.dart';
 import './signup_screen.dart';
 
@@ -33,11 +35,8 @@ class OnboardingScreen extends StatelessWidget {
                     AppButton(
                       text: 'はじめる',
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpScreen()),
-                        );
+                        navigateToPageReplacement(
+                            context, const SignUpScreen());
                       },
                       backgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
@@ -46,7 +45,8 @@ class OnboardingScreen extends StatelessWidget {
                     AppButton(
                       text: 'ログイン',
                       onPressed: () {
-                        // ログインボタンの処理
+                        navigateToPageReplacement(
+                            context, const SignInScreen());
                       },
                       backgroundColor: Colors.white,
                       textColor: Colors.black,
