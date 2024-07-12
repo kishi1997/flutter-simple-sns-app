@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/button/app_button.dart';
+import 'package:simple_sns_app/domain/account/account_service.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key});
 
   @override
-  SignupFormState createState() {
-    return SignupFormState();
-  }
+  SignupFormState createState() => SignupFormState();
 }
 
 class SignupFormState extends State<SignupForm> {
@@ -60,6 +59,30 @@ class SignupFormState extends State<SignupForm> {
     _isFormValid = _isValidName && _isValidEmail && _isValidPassword;
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _signup() async {
+    final name = _nameController.text;
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    try {
+      await AccountService().signup(name, email, password);
+      _showSnackBar('success');
+    } catch (e) {
+      _showSnackBar('Failed to signup');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -94,17 +117,17 @@ class SignupFormState extends State<SignupForm> {
         ),
         const SizedBox(height: 32),
         AppButton(
-            text: 'はじめる',
-            onPressed: _isFormValid
-                ? () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Success')),
-                    );
-                  }
-                : null,
-            backgroundColor:
-                _isFormValid ? Theme.of(context).primaryColor : Colors.grey,
-            textColor: Colors.white),
+          text: 'はじめる',
+          onPressed: _isFormValid
+              ? () {
+                  _signup();
+                }
+              : null,
+          backgroundColor: _isFormValid
+              ? Theme.of(context).primaryColor
+              : Colors.grey,
+          textColor: Colors.white,
+        ),
       ],
     ));
   }
