@@ -16,13 +16,7 @@ class User {
     this.iconImageUrl,
   });
 
-  // JSONをUserオブジェクトに変換するファクトリコンストラクタ
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  // UserオブジェクトをJSONに変換するメソッド
   Map<String, dynamic> toJson() => _$UserToJson(this);
-  // @override
-  // String toString() {
-  //   return 'Account{id: $id, name: $name, email: $email, iconImageUrl: $iconImageUrl}';
-  // }
 }

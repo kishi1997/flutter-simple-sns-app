@@ -13,10 +13,8 @@ class Account {
     required this.token,
   });
 
-  // JSONをApiResponseオブジェクトに変換するファクトリコンストラクタ
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
 
-  // ApiResponseオブジェクトをJSONに変換するメソッド
   Map<String, dynamic> toJson() => _$AccountToJson(this);
 }

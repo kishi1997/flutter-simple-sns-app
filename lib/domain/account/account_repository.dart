@@ -9,8 +9,7 @@ class AccountRepository {
         data: {'name': name, 'email': email, 'password': password},
       );
       final data = res.data;
-      final account = Account.fromJson(data);
-      return account;
+      return Account.fromJson(data);
     } catch (e) {
       throw Exception('Failed to signup: $e');
     }
