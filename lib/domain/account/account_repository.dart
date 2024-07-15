@@ -1,4 +1,6 @@
 import 'package:simple_sns_app/domain/account/account_entity.dart';
+import 'package:simple_sns_app/domain/user/user_entity.dart';
+import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/api.dart';
 
 class AccountRepository {
@@ -11,6 +13,18 @@ class AccountRepository {
       return Account.fromJson(res.data);
     } catch (e) {
       throw Exception('Failed to signup: $e');
+    }
+  }
+
+  Future<User> getAccount() async {
+    try {
+      final res = await apiClient.dio.get(
+        '/account',
+      );
+      logger.d(res);
+      return User.fromJson(res.data["user"]);
+    } catch (e) {
+      throw Exception('Failed to get account: $e');
     }
   }
 }
