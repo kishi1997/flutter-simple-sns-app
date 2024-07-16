@@ -5,7 +5,7 @@ import 'package:simple_sns_app/utils/api.dart';
 class AccountRepository {
   Future<Account> signup(String name, String email, String password) async {
     try {
-      final res = await apiClient.dio.post(
+      final res = await api.post(
         '/account',
         data: {'name': name, 'email': email, 'password': password},
       );
@@ -17,7 +17,7 @@ class AccountRepository {
 
   Future<User?> getAccount() async {
     try {
-      final res = await apiClient.dio.get(
+      final res = await api.get(
         '/account',
       );
       if (res.data["user"] == null) {

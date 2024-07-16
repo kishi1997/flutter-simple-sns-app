@@ -4,7 +4,7 @@ import 'package:simple_sns_app/utils/api.dart';
 class AuthRepository {
   Future<Account> signin(String email, String password) async {
     try {
-      final res = await apiClient.dio.post(
+      final res = await api.post(
         '/auth',
         data: {'email': email, 'password': password},
       );
