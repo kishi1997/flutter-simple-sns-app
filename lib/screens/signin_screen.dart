@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/screens/signup_screen.dart';
-import 'package:simple_sns_app/utils/navigation_utils.dart';
 import 'package:simple_sns_app/widgets/form/signin_form.dart';
 
 class SigninScreen extends StatelessWidget {
@@ -28,7 +27,11 @@ class SigninScreen extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    navigateToPageReplacement(context, const SignUpScreen());
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpScreen()),
+                    );
                   },
               ),
             ),
