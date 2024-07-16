@@ -1,13 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/web.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/link_utils.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/navigation_utils.dart';
 import 'package:simple_sns_app/widgets/form/signup_form.dart';
-
-var logger = Logger();
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -25,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
       try {
         await launchURL(url);
       } catch (e) {
-        logger.e(e);
+        logError(e);
         showSnackBar('エラーが発生しました。しばらく経ってからもう一度お試しください。');
       }
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/button/app_button.dart';
 import 'package:simple_sns_app/domain/auth/auth_service.dart';
 import 'package:simple_sns_app/screens/post/post_list_screen.dart';
-import 'package:simple_sns_app/screens/signup_screen.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/navigation_utils.dart';
 import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
@@ -63,7 +63,7 @@ class SigninFormState extends State<SigninForm> {
       showSnackBar(context, 'サインインに成功しました！');
       navigateToPageReplacement(context, const PostListScreen());
     } catch (e) {
-      logger.e(e);
+      logError(e);
       showSnackBar(context, "サインインに失敗しました");
     }
   }

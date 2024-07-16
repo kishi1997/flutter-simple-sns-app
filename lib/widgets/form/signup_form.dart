@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/button/app_button.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
-import 'package:simple_sns_app/screens/signup_screen.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class SignupForm extends StatefulWidget {
@@ -80,7 +80,7 @@ class SignupFormState extends State<SignupForm> {
       await AccountService().signup(name, email, password);
       _showSnackBar('アカウントが登録されました');
     } catch (e) {
-      logger.e(e);
+      logError(e);
       _showSnackBar("アカウントの登録に失敗しました");
     }
   }
