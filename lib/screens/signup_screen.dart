@@ -49,7 +49,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    navigateToPageReplacement(context, const SignInScreen());
+                    navigateToPageReplacement(context, const SigninScreen());
                   },
               ),
             ),

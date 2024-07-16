@@ -46,7 +46,7 @@ class OnboardingScreen extends StatelessWidget {
                       text: 'ログイン',
                       onPressed: () {
                         navigateToPageReplacement(
-                            context, const SignInScreen());
+                            context, const SigninScreen());
                       },
                       backgroundColor: Colors.white,
                       textColor: Colors.black,
