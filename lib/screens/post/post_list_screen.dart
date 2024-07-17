@@ -3,7 +3,7 @@ import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_service.dart';
 import 'package:simple_sns_app/screens/signin_screen.dart';
-import 'package:simple_sns_app/utils/date_utils.dart';
+import 'package:simple_sns_app/widgets/post/post_list_tile.dart';
 
 class PostListScreen extends StatefulWidget {
   const PostListScreen({super.key});
@@ -41,36 +41,7 @@ class PostListState extends State<PostListScreen> {
                 itemCount: _posts.length,
                 itemBuilder: (BuildContext context, int index) {
                   final post = _posts[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: post.user.iconImageUrl != null
-                          ? NetworkImage(post.user.iconImageUrl!)
-                          : null,
-                      child: post.user.iconImageUrl == null
-                          ? const Icon(Icons.person)
-                          : null,
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(post.user.name),
-                            const SizedBox(width: 8.0),
-                            Text(
-                              formatDate(post.createdAt),
-                              style: const TextStyle(fontSize: 10),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    subtitle: Text(post.body),
-                    trailing: Transform.rotate(
-                      angle: 90 * 3.1415927 / 180,
-                      child: const Icon(Icons.more_vert),
-                    ),
-                  );
+                  return PostListTile(post: post);
                 },
               ),
             )));
