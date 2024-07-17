@@ -20,10 +20,6 @@ class SigninFormState extends State<SigninForm> {
   String? _emailErrorText;
   String? _passwordErrorText;
 
-  bool _isValidEmail = false;
-  bool _isValidPassword = false;
-  bool _isFormValid = false;
-
   @override
   void initState() {
     super.initState();
@@ -38,19 +34,20 @@ class SigninFormState extends State<SigninForm> {
     super.dispose();
   }
 
+  bool get _isFormValid {
+    return CustomValidators.validateEmail(_emailController.text) == null &&
+        CustomValidators.validatePassword(_passwordController.text) == null;
+  }
+
   void _validateField(String field) {
     setState(() {
       if (field == 'email') {
         _emailErrorText = CustomValidators.validateEmail(_emailController.text);
-        _isValidEmail = isFormFieldValid(_emailErrorText, _emailController);
       } else if (field == 'password') {
         _passwordErrorText =
             CustomValidators.validatePassword(_passwordController.text);
-        _isValidPassword =
-            isFormFieldValid(_passwordErrorText, _passwordController);
       }
     });
-    _isFormValid = _isValidEmail && _isValidPassword;
   }
 
   Future<void> _signIn() async {
