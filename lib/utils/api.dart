@@ -19,10 +19,10 @@ class AuthInterceptor extends QueuedInterceptor {
   }
 }
 
-Dio apiClient() {
+Dio setupDioApiClient() {
   final dio = Dio(BaseOptions(baseUrl: dotenv.get('API_BASE_URL')));
   dio.interceptors.add(AuthInterceptor(dio));
   return dio;
 }
 
-final api = apiClient();
+final api = setupDioApiClient();
