@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/token_utils.dart';
 
 class AuthInterceptor extends QueuedInterceptor {
@@ -14,7 +13,6 @@ class AuthInterceptor extends QueuedInterceptor {
   ) async {
     if (options.headers['Authorization']?.isEmpty ?? true) {
       final accessToken = await tokenStorage.getToken();
-      logger.d(accessToken);
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
     return handler.next(options);
