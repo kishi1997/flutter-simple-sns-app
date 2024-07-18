@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/screens/signin_screen.dart';
 import '../components/button/app_button.dart';
 import './signup_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
+  void navigateToPageReplacement(
+    BuildContext context,
+    Widget page,
+  ) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +43,8 @@ class OnboardingScreen extends StatelessWidget {
                     AppButton(
                       text: 'はじめる',
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpScreen()),
-                        );
+                        navigateToPageReplacement(
+                            context, const SignUpScreen());
                       },
                       backgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
@@ -46,7 +53,8 @@ class OnboardingScreen extends StatelessWidget {
                     AppButton(
                       text: 'ログイン',
                       onPressed: () {
-                        // ログインボタンの処理
+                        navigateToPageReplacement(
+                            context, const SigninScreen());
                       },
                       backgroundColor: Colors.white,
                       textColor: Colors.black,
