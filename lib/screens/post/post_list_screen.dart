@@ -41,7 +41,8 @@ class PostListState extends State<PostListScreen> {
     return Scaffold(
         appBar: const AppHeader(title: '投稿一覧'),
         body: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.only(
+                top: 0, right: 24.0, bottom: 24.0, left: 24.0),
             child: Center(
               child: ListView.builder(
                 itemCount: _posts.length,

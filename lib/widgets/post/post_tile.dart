@@ -43,6 +43,7 @@ class PostTileState extends State<PostTile> {
     final currentUser = Provider.of<UserProvider>(context).user;
     bool currentUserIsAuthor = currentUser?.id == postAuthor?.id;
     return Column(children: [
+      const SizedBox(height: 24),
       ListTile(
         leading: CircleAvatar(
           backgroundImage: postAuthor?.iconImageUrl != null
