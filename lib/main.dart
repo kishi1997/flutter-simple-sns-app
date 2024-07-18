@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:simple_sns_app/domain/account/account_service.dart';
+import 'package:simple_sns_app/domain/user/user_entity.dart';
+import 'package:simple_sns_app/screens/post/post_list_screen.dart';
+import 'package:simple_sns_app/utils/load_utils.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'screens/onboarding_screen.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: '.env');
-  runApp(const MyApp());
+  await loadEnvironmentVariables();
+  User? user = await _initializeUser();
+  runApp(MyApp(user: user));
+}
+
+Future<User?> _initializeUser() async {
+  try {
+    return await AccountService().getAccount();
+  } catch (e) {
+    logError(e);
+    return null;
+  }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final User? user;
+  const MyApp({super.key, required this.user});
 
   // This widget is the root of your application.
   @override
@@ -19,7 +34,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.lightGreen,
         useMaterial3: true,
       ),
-      home: const OnboardingScreen(),
+      home: user != null ? const PostListScreen() : const OnboardingScreen(),
     );
   }
 }
