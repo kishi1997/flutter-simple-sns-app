@@ -10,7 +10,7 @@ class AccountService {
     return accountData;
   }
 
-  Future<User> getAccount() async {
+  Future<User?> getAccount() async {
     final accountData = await AccountRepository().getAccount();
     return accountData;
   }
