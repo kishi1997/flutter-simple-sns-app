@@ -6,4 +6,8 @@ class PostService {
     final posts = await PostRepository().getPosts();
     return posts;
   }
+
+  Future<void> delete(int postId) async {
+    await PostRepository().delete(postId);
+  }
 }

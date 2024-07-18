@@ -30,6 +30,12 @@ class PostListState extends State<PostListScreen> {
     getPosts();
   }
 
+  void _removePost(int postId) {
+    setState(() {
+      _posts.removeWhere((post) => post.id == postId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +47,10 @@ class PostListState extends State<PostListScreen> {
                 itemCount: _posts.length,
                 itemBuilder: (BuildContext context, int index) {
                   final post = _posts[index];
-                  return PostTile(post: post);
+                  return PostTile(
+                    post: post,
+                    onDelete: _removePost,
+                  );
                 },
               ),
             )));
