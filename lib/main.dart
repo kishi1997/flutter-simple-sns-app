@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
-import 'package:simple_sns_app/screens/post/post_list_screen.dart';
+import 'package:simple_sns_app/screens/home_screen.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/utils/load_utils.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.lightGreen,
         useMaterial3: true,
       ),
-      home: user != null ? const PostListScreen() : const OnboardingScreen(),
+      home: user != null ? const HomeScreen() : const OnboardingScreen(),
     );
   }
 }
