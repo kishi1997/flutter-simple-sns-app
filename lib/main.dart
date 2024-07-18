@@ -13,7 +13,13 @@ Future<void> main() async {
   User? user = await _initializeUser();
   runApp(
     ChangeNotifierProvider(
-      create: (context) => UserProvider()..setUser(user),
+      create: (context) {
+        UserProvider userProvider = UserProvider();
+        if (user != null) {
+          userProvider.setUser(user);
+        }
+        return userProvider;
+      },
       child: MyApp(user: user),
     ),
   );
