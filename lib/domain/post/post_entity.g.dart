@@ -12,7 +12,9 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       userId: (json['userId'] as num).toInt(),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{

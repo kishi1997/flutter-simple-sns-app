@@ -10,7 +10,7 @@ class Post {
   final String body;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final User user;
+  final User? user;
 
   Post({
     required this.id,
@@ -18,7 +18,7 @@ class Post {
     required this.userId,
     required this.createdAt,
     required this.updatedAt,
-    required this.user,
+    this.user,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

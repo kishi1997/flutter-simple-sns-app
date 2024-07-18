@@ -2,29 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
 
-class PostListTile extends StatelessWidget {
+class PostTile extends StatelessWidget {
   final Post post;
 
-  const PostListTile({
+  const PostTile({
     super.key,
     required this.post,
   });
 
   @override
   Widget build(BuildContext context) {
+    final user = post.user;
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: post.user.iconImageUrl != null
-            ? NetworkImage(post.user.iconImageUrl!)
+        backgroundImage: user?.iconImageUrl != null
+            ? NetworkImage(user!.iconImageUrl!)
             : null,
-        child: post.user.iconImageUrl == null ? const Icon(Icons.person) : null,
+        child: user?.iconImageUrl == null ? const Icon(Icons.person) : null,
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text(post.user.name, style: const TextStyle(fontSize: 12)),
+              Text(user?.name ?? 'Unknown User',
+                  style: const TextStyle(fontSize: 12)),
               const SizedBox(width: 8.0),
               Text(
                 formatDate(post.createdAt),
