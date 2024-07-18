@@ -47,7 +47,11 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    navigateToPageReplacement(context, const SignInScreen());
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SigninScreen()),
+                    );
                   },
               ),
             ),
