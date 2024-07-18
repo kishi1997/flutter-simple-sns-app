@@ -4,7 +4,6 @@ import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/link_utils.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
-import 'package:simple_sns_app/utils/navigation_utils.dart';
 import 'package:simple_sns_app/widgets/form/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
