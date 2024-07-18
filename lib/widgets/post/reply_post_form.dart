@@ -43,7 +43,7 @@ class ReplyPostFormState extends State<ReplyPostForm> {
               contentPadding: const EdgeInsets.only(
                   top: 1.0, bottom: 1.0, left: 8.0, right: 8.0),
               border: const OutlineInputBorder(),
-              hintText: '返信を入力',
+              hintText: '返信する',
               hintStyle: const TextStyle(color: Colors.grey),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.send),
