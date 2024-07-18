@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
 import 'package:simple_sns_app/screens/post/post_list_screen.dart';
+import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/utils/load_utils.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'screens/onboarding_screen.dart';
@@ -9,7 +11,12 @@ import 'screens/onboarding_screen.dart';
 Future<void> main() async {
   await loadEnvironmentVariables();
   User? user = await _initializeUser();
-  runApp(MyApp(user: user));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider()..setUser(user),
+      child: MyApp(user: user),
+    ),
+  );
 }
 
 Future<User?> _initializeUser() async {
