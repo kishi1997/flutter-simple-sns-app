@@ -9,7 +9,7 @@ part of 'user_entity.dart';
 User _$UserFromJson(Map<String, dynamic> json) => User(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
-      email: json['email'] as String,
+      email: json['email'] as String?,
       iconImageUrl: json['iconImageUrl'] as String?,
     );
 

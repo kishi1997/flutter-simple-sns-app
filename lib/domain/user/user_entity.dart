@@ -6,13 +6,13 @@ part 'user_entity.g.dart';
 class User {
   final int id;
   final String name;
-  final String email;
+  final String? email;
   final String? iconImageUrl;
 
   User({
     required this.id,
     required this.name,
-    required this.email,
+    this.email,
     this.iconImageUrl,
   });
 
