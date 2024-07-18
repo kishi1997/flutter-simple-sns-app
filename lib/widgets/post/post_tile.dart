@@ -25,7 +25,7 @@ class PostTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(user?.name ?? 'Unknown User',
+              Text(user?.name != null ? user!.name : 'Unknown User',
                   style: const TextStyle(fontSize: 12)),
               const SizedBox(width: 8.0),
               Text(
