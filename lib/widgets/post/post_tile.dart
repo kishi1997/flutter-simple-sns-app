@@ -15,10 +15,11 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = Provider.of<UserProvider>(context).user;
-    bool currentUserIsAuthor = currentUser?.id == post.user?.id;
     final postAuthor = post.user;
+    final currentUser = Provider.of<UserProvider>(context).user;
+    bool currentUserIsAuthor = currentUser?.id == postAuthor?.id;
     return Column(children: [
+      const SizedBox(height: 24),
       ListTile(
         leading: CircleAvatar(
           backgroundImage: postAuthor?.iconImageUrl != null
