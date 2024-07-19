@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_service.dart';
-import 'package:simple_sns_app/screens/post/create_post_screen.dart';
+import 'package:simple_sns_app/screens/post/post_creation_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/widgets/post/post_tile.dart';
 
@@ -65,7 +65,7 @@ class PostListState extends State<PostListScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CreatePostScreen()),
+            MaterialPageRoute(builder: (context) => const PostCreationScreen()),
           );
         },
         backgroundColor: Theme.of(context).primaryColor,
