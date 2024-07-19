@@ -14,7 +14,6 @@ Future<void> main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) {
-        UserProvider userProvider = UserProvider();
         if (user != null) {
           userProvider.setUser(user);
         }

@@ -3,7 +3,6 @@ import 'package:simple_sns_app/components/button/app_button.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
 import 'package:simple_sns_app/screens/post/post_list_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
-import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class SignupForm extends StatefulWidget {
@@ -79,9 +78,8 @@ class SignupFormState extends State<SignupForm> {
     final password = _passwordController.text;
 
     try {
-      final res = await AccountService().signup(name, email, password);
+      await AccountService().signup(name, email, password);
       if (!mounted) return;
-      setUserData(context, res.user);
       _showSnackBar('アカウントが登録されました');
       Navigator.pushReplacement(
         context,
