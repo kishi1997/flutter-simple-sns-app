@@ -23,7 +23,7 @@ class AppHeaderWithActions extends StatelessWidget
   final String title;
   final String buttonText;
   final bool isFormValid;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
 
   const AppHeaderWithActions({
     super.key,

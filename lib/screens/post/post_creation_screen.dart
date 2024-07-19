@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
+import 'package:simple_sns_app/domain/post/post_service.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
+import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class PostCreationScreen extends StatefulWidget {
@@ -48,9 +51,16 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
-// 仮の投稿作成関数
-  void _createPost() {
-    // 投稿アクション
+  Future<void> _createPost(String content) async {
+    try {
+      await PostService().createPost(content);
+      if (!mounted) return;
+      showSnackBar(context, '投稿が完了しました！');
+      Navigator.of(context).pop();
+    } catch (e) {
+      logError(e);
+      showSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
+    }
   }
 
   @override
@@ -60,7 +70,9 @@ class PostCreationScreenState extends State<PostCreationScreen> {
         title: "投稿作成",
         buttonText: "投稿",
         isFormValid: _isFormValid,
-        onPressed: _createPost,
+        onPressed: () async {
+          await _createPost(_postFormController.text);
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
