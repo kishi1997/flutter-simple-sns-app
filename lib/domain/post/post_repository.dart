@@ -13,4 +13,12 @@ class PostRepository {
       throw Exception('Failed to get posts: $e');
     }
   }
+
+  Future<void> delete(int postId) async {
+    try {
+      await api.delete('/posts/$postId');
+    } catch (e) {
+      throw Exception('Failed to delete post: $e');
+    }
+  }
 }
