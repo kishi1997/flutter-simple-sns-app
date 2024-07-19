@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       home: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
           return userProvider.user != null
-              ? const PostListScreen()
+              ? const HomeScreen()
               : const OnboardingScreen();
         },
       ),
