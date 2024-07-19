@@ -31,6 +31,11 @@ class ReplyPostFormState extends State<ReplyPostForm> {
     }
   }
 
+  void _handleSendMessage(String message, int postId) async {
+    await _createMessageViaPost(message, postId);
+    _replyController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -49,9 +54,7 @@ class ReplyPostFormState extends State<ReplyPostForm> {
                 icon: const Icon(Icons.send),
                 iconSize: 14,
                 onPressed: () async {
-                  await _createMessageViaPost(
-                      _replyController.text, widget.postId);
-                  _replyController.clear();
+                  _handleSendMessage(_replyController.text, widget.postId);
                 },
               ),
             ),
