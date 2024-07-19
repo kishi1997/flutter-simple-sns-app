@@ -10,32 +10,28 @@ import 'screens/onboarding_screen.dart';
 
 Future<void> main() async {
   await loadEnvironmentVariables();
-  User? user = await _initializeUser();
+  await _initializeUser();
   runApp(
     ChangeNotifierProvider(
-      create: (context) {
-        if (user != null) {
-          userProvider.setUser(user);
-        }
-        return userProvider;
-      },
-      child: MyApp(user: user),
+      create: (context) => userProvider,
+      child: const MyApp(),
     ),
   );
 }
 
-Future<User?> _initializeUser() async {
+Future<void> _initializeUser() async {
   try {
-    return await AccountService().getAccount();
+    User? user = await AccountService().getAccount();
+    if (user != null) {
+      userProvider.setUser(user);
+    }
   } catch (e) {
     logError(e);
-    return null;
   }
 }
 
 class MyApp extends StatelessWidget {
-  final User? user;
-  const MyApp({super.key, required this.user});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -46,7 +42,13 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.lightGreen,
         useMaterial3: true,
       ),
-      home: user != null ? const PostListScreen() : const OnboardingScreen(),
+      home: Consumer<UserProvider>(
+        builder: (context, userProvider, child) {
+          return userProvider.user != null
+              ? const PostListScreen()
+              : const OnboardingScreen();
+        },
+      ),
     );
   }
 }
