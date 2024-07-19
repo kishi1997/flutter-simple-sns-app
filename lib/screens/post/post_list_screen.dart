@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_service.dart';
-import 'package:simple_sns_app/screens/signin_screen.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/widgets/post/post_tile.dart';
 
 class PostListScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class PostListState extends State<PostListScreen> {
         _posts = posts;
       });
     } catch (e) {
-      logger.e(e);
+      logError(e);
     }
   }
 
@@ -35,7 +35,8 @@ class PostListState extends State<PostListScreen> {
     return Scaffold(
         appBar: const AppHeader(title: '投稿一覧'),
         body: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.only(
+                top: 0, right: 24.0, bottom: 24.0, left: 24.0),
             child: Center(
               child: ListView.builder(
                 itemCount: _posts.length,
