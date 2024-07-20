@@ -7,6 +7,15 @@ class RoomListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: AppHeader(title: 'room一覧ページ'),
+      body: Padding(
+        padding: EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('仮のroom一覧ページ', style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
     );
   }
 }
