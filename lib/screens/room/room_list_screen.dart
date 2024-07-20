@@ -20,7 +20,6 @@ class RoomListScreenState extends State<RoomListScreen> {
       _isLoading = true;
     });
     try {
-      await Future.delayed(const Duration(seconds: 3));
       final rooms = await RoomService().getRooms();
       setState(() {
         _rooms = rooms;

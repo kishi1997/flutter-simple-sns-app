@@ -4,6 +4,10 @@ String formatDate(DateTime time) {
   return DateFormat('yyyy/MM/dd').format(time);
 }
 
+String formatMonthDay(DateTime time) {
+  return DateFormat('MM/dd').format(time);
+}
+
 String formatRelativeTime(DateTime time) {
   final now = DateTime.now();
   final difference = now.difference(time);
