@@ -13,4 +13,19 @@ class RoomRepository {
       throw Exception('Failed to get rooms: $e');
     }
   }
+
+  Future<Room> findRoom(String roomId) async {
+    try {
+      final res = await api.get(
+        '/rooms',
+        queryParameters: {
+          'roomId': roomId,
+        },
+      );
+      final room = Room.fromJson(res.data['rooms']);
+      return room;
+    } catch (e) {
+      throw Exception('Failed to get rooms: $e');
+    }
+  }
 }

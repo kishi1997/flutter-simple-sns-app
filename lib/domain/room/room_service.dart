@@ -6,4 +6,9 @@ class RoomService {
     final rooms = await RoomRepository().getRooms();
     return rooms;
   }
+
+  Future<Room> findRoom(String roomId) async {
+    final room = await RoomRepository().findRoom(roomId);
+    return room;
+  }
 }
