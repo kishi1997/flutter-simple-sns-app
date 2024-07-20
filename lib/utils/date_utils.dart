@@ -4,7 +4,7 @@ String formatDate(DateTime time) {
   return DateFormat('yyyy/MM/dd').format(time);
 }
 
-String getlatestMessageTime(DateTime time) {
+String formatRelativeTime(DateTime time) {
   final now = DateTime.now();
   final difference = now.difference(time);
   if (difference.inDays >= 1) {
