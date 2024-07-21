@@ -1,14 +1,17 @@
 import 'package:simple_sns_app/domain/message/message_entity.dart';
+import 'package:simple_sns_app/domain/message/message_service.dart';
 import 'package:simple_sns_app/utils/api.dart';
+import 'package:simple_sns_app/utils/pagination_utils.dart';
 
 class MessageRepository {
-  Future<List<Message>> getMessages(String roomId) async {
+  Future<List<Message>> getMessages(String roomId,
+      [Pagination? pagination]) async {
     try {
+      final queryParameters = buildPagiationParameters(pagination);
+      queryParameters['roomId'] = roomId;
       final res = await api.get(
         '/messages',
-        queryParameters: {
-          'roomId': roomId,
-        },
+        queryParameters: queryParameters,
       );
       final messages = (res.data['messages'] as List<dynamic>)
           .map((message) => Message.fromJson(message as Map<String, dynamic>))
