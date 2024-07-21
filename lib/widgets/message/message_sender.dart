@@ -20,6 +20,12 @@ class MessageSenderState extends State<MessageSender> {
     });
   }
 
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
+
   void _sendMessage() async {
     // メッセージ送信のロジック
   }

@@ -5,8 +5,10 @@ import 'package:simple_sns_app/utils/date_utils.dart';
 
 class MessageContentWithPost extends StatelessWidget {
   final Post post;
+  final bool isCurrentUser;
 
-  const MessageContentWithPost({super.key, required this.post});
+  const MessageContentWithPost(
+      {super.key, required this.post, required this.isCurrentUser});
 
   @override
   Widget build(BuildContext context) {
@@ -31,48 +33,60 @@ class MessageContentWithPost extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color.fromARGB(255, 225, 225, 225),
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+        padding: const EdgeInsets.only(bottom: 8.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:
+              isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                SizedBox(width: 20.0, height: 20.0, child: postAuthorIcon),
-                const SizedBox(width: 8.0),
-                Text(
-                  postAuthor?.name ?? 'Unknown User',
-                  style: const TextStyle(fontSize: 12),
-                ),
-                const SizedBox(width: 8.0),
-                Text(
-                  formatMonthDay(post.createdAt),
-                  style: const TextStyle(fontSize: 10, color: Colors.grey),
-                ),
-              ],
+            const Text(
+              "投稿に返信しました",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const SizedBox(height: 8.0),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    post.body,
-                    style: const TextStyle(fontSize: 14),
-                  ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 225, 225, 225),
                 ),
-              ],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                          width: 20.0, height: 20.0, child: postAuthorIcon),
+                      const SizedBox(width: 8.0),
+                      Text(
+                        postAuthor?.name ?? 'Unknown User',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Text(
+                        formatMonthDay(post.createdAt),
+                        style:
+                            const TextStyle(fontSize: 10, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          post.body,
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
 

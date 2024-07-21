@@ -25,7 +25,8 @@ class MessageItem extends StatelessWidget {
               left: isCurrentUser ? 48.0 : 0.0,
               right: isCurrentUser ? 0.0 : 40.0,
             ),
-            child: MessageContentWithPost(post: message.post!),
+            child: MessageContentWithPost(
+                post: message.post!, isCurrentUser: isCurrentUser),
           ),
         Padding(
           padding: EdgeInsets.only(

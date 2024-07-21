@@ -44,6 +44,11 @@ class RoomScreenState extends State<RoomScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppHeader(title: widget.chatPartnerName),
@@ -51,7 +56,7 @@ class RoomScreenState extends State<RoomScreen> {
         padding: const EdgeInsets.only(
           top: 0,
           right: 24.0,
-          bottom: 48.0,
+          bottom: 0,
           left: 24.0,
         ),
         child: Column(
@@ -70,6 +75,7 @@ class RoomScreenState extends State<RoomScreen> {
                       },
                     ),
             ),
+            const SizedBox(height: 24.0),
             const MessageSender(),
           ],
         ),
