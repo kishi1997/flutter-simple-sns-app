@@ -31,12 +31,6 @@ class PostListState extends State<PostListScreen> {
     getPosts();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    getPosts();
-  }
-
   void _removePost(int postId) {
     setState(() {
       _posts.removeWhere((post) => post.id == postId);
