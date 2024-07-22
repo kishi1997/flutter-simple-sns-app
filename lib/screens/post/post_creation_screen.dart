@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
+import 'package:simple_sns_app/widgets/post/post_button.dart';
 
 class PostCreationScreen extends StatefulWidget {
   const PostCreationScreen({super.key});
@@ -55,29 +57,12 @@ class PostCreationScreenState extends State<PostCreationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('投稿作成'),
+      appBar: AppHeader(
+        title: '投稿作成',
         actions: [
-          TextButton(
-            onPressed: _isFormValid()
-                ? () {
-                    _createPost();
-                  }
-                : null,
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-              decoration: BoxDecoration(
-                color: _isFormValid()
-                    ? Theme.of(context).primaryColor
-                    : Colors.grey,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: const Text(
-                '投稿',
-                style: TextStyle(color: Colors.white, fontSize: (16.0)),
-              ),
-            ),
+          PostButton(
+            isFormValid: _isFormValid(),
+            onPressed: _createPost,
           ),
         ],
       ),
