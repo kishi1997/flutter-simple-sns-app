@@ -31,9 +31,21 @@ class PostListState extends State<PostListScreen> {
     getPosts();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getPosts();
+  }
+
   void _removePost(int postId) {
     setState(() {
       _posts.removeWhere((post) => post.id == postId);
+    });
+  }
+
+  void _addPost(Post newPost) {
+    setState(() {
+      _posts.insert(0, newPost);
     });
   }
 
@@ -62,11 +74,14 @@ class PostListState extends State<PostListScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final newPost = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PostCreationScreen()),
           );
+          if (newPost != null) {
+            _addPost(newPost);
+          }
         },
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,

@@ -53,10 +53,10 @@ class PostCreationScreenState extends State<PostCreationScreen> {
 
   Future<void> _createPost(String content) async {
     try {
-      await PostService().createPost(content);
+      final newPost = await PostService().createPost(content);
       if (!mounted) return;
       showSnackBar(context, '投稿が完了しました！');
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(newPost);
     } catch (e) {
       logError(e);
       showSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
