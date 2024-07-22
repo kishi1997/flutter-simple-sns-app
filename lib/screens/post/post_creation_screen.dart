@@ -71,7 +71,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
           TextButton(
             onPressed: _isFormValid()
                 ? () {
-                    _createPost();
+                    _createPost(_postFormController.text);
                   }
                 : null,
             child: Container(
