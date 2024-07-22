@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/button/app_button.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
-import 'package:simple_sns_app/screens/home_screen.dart';
+import 'package:simple_sns_app/screens/post/post_list_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
@@ -83,7 +83,7 @@ class SignupFormState extends State<SignupForm> {
       _showSnackBar('アカウントが登録されました');
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const PostListScreen()),
       );
     } catch (e) {
       logError(e);
