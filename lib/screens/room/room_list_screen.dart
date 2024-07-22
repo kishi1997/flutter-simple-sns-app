@@ -48,7 +48,7 @@ class RoomListScreenState extends State<RoomListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(title: 'room一覧ページ'),
+      appBar: const AppHeader(title: 'ルーム一覧'),
       body: Padding(
         padding: const EdgeInsets.only(
           top: 0,
