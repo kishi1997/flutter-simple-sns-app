@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
-import 'package:simple_sns_app/widgets/post/post_button.dart';
 
 class PostCreationScreen extends StatefulWidget {
   const PostCreationScreen({super.key});
+
   @override
   PostCreationScreenState createState() => PostCreationScreenState();
 }
@@ -12,7 +12,7 @@ class PostCreationScreen extends StatefulWidget {
 class PostCreationScreenState extends State<PostCreationScreen> {
   final TextEditingController _postFormController = TextEditingController();
   int _charCount = 0;
-  final int _MAX_POST_LENGTH = 140;
+  static const int _MAX_POST_LENGTH = 140;
   String? _postFormErrorText;
 
   @override
@@ -49,9 +49,27 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
-// 仮の投稿作成関数
+  // 仮の投稿作成関数
   void _createPost() {
     // 投稿アクション
+  }
+  Widget _postButton() {
+    return TextButton(
+      onPressed: _isFormValid() ? _createPost : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: _isFormValid()
+              ? Colors.white
+              : const Color.fromARGB(108, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: const Text(
+          "投稿",
+          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
+        ),
+      ),
+    );
   }
 
   @override
@@ -60,10 +78,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
       appBar: AppHeader(
         title: '投稿作成',
         actions: [
-          PostButton(
-            isFormValid: _isFormValid(),
-            onPressed: _createPost,
-          ),
+          _postButton(),
         ],
       ),
       body: Padding(
