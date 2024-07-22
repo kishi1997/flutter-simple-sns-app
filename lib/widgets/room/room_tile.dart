@@ -35,37 +35,36 @@ class RoomTileState extends State<RoomTile> {
         child: Column(children: [
           const SizedBox(height: 24),
           ListTile(
-            leading: CircleAvatar(
-              backgroundImage: chatPartner.user?.iconImageUrl != null
-                  ? NetworkImage(chatPartner.user!.iconImageUrl!)
-                  : null,
-              child: chatPartner.user?.iconImageUrl == null
-                  ? const Icon(Icons.person)
-                  : null,
-            ),
-            title: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
+              leading: CircleAvatar(
+                backgroundImage: chatPartner.user?.iconImageUrl != null
+                    ? NetworkImage(chatPartner.user!.iconImageUrl!)
+                    : null,
+                child: chatPartner.user?.iconImageUrl == null
+                    ? const Icon(Icons.person)
+                    : null,
+              ),
+              title: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
                         chatPartner.user?.name != null
                             ? chatPartner.user!.name
                             : 'Unknown User',
-                        style: const TextStyle(fontSize: 12)),
-                    const SizedBox(width: 8.0),
-                    Text(
-                      formatRelativeTime(latestMessage.createdAt),
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            subtitle: Text(latestMessage.content,
-                style: const TextStyle(fontSize: 16)),
-          ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Text(
+                        formatRelativeTime(latestMessage.createdAt),
+                        style:
+                            const TextStyle(fontSize: 10, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              subtitle: Text(latestMessage.content,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey))),
         ]));
   }
 }
