@@ -40,12 +40,6 @@ class RoomListScreenState extends State<RoomListScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    getRooms();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppHeader(title: 'ルーム一覧'),
