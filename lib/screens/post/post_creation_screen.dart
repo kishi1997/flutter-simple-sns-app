@@ -96,7 +96,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
                 counterText: '',
               ),
             ),
-            // const Spacer(),
+            const Spacer(),
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
