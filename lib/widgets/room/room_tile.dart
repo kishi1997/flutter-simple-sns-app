@@ -47,6 +47,7 @@ class RoomTileState extends State<RoomTile> {
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                         chatPartner.user?.name != null
