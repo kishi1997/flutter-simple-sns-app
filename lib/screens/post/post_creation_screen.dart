@@ -93,6 +93,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
                 hintText: '投稿内容を記入...',
                 border: InputBorder.none,
                 errorText: _postFormErrorText,
+                // 文字数カウンターは自前で用意したものを使いたいため、デフォルトの文字カウンターは非表示
                 counterText: '',
               ),
             ),
