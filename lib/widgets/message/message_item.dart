@@ -15,8 +15,18 @@ class MessageItem extends StatelessWidget {
 
   Widget _buildBody(bool isCurrentUser) {
     if (message.post != null) {
-      return MessageContentWithPost(
-          post: message.post!, isCurrentUser: isCurrentUser);
+      return Column(
+        children: [
+          MessageContentWithPost(
+            post: message.post!,
+            isCurrentUser: isCurrentUser,
+          ),
+          MessageContent(
+            message: message,
+            isCurrentUser: isCurrentUser,
+          ),
+        ],
+      );
     }
     return MessageContent(
       message: message,
