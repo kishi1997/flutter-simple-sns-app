@@ -66,9 +66,8 @@ class PostListState extends State<PostListScreen> {
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PostCreationScreen()),
-          ).then((_) {
-            fetchPosts();
-          });
+          );
+          fetchPosts();
         },
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
