@@ -2,6 +2,22 @@ import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/utils/api.dart';
 
 class PostRepository {
+  Future<Post> createPost(String content) async {
+    try {
+      final res = await api.post(
+        '/posts',
+        data: {
+          "post": {
+            "body": content,
+          }
+        },
+      );
+      return Post.fromJson(res.data["post"]);
+    } catch (e) {
+      throw Exception('Failed to create post: $e');
+    }
+  }
+
   Future<List<Post>> getPosts() async {
     try {
       final res = await api.get('/posts');
