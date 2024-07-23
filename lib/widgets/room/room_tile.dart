@@ -30,9 +30,13 @@ class RoomTileState extends State<RoomTile> {
   }
 
   Widget _buildAvatar(String? iconImageUrl) {
+    if (iconImageUrl == null) {
+      return const CircleAvatar(
+        child: Icon(Icons.person),
+      );
+    }
     return CircleAvatar(
-      backgroundImage: iconImageUrl != null ? NetworkImage(iconImageUrl) : null,
-      child: iconImageUrl == null ? const Icon(Icons.person) : null,
+      backgroundImage: NetworkImage(iconImageUrl),
     );
   }
 
