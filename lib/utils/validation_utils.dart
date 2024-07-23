@@ -39,13 +39,6 @@ class CustomValidators {
     }
     return null;
   }
-
-  static String? validateEmpty(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return '1文字以上で入力してください';
-    }
-    return null;
-  }
 }
 
 bool isFormFieldValid(String? errorText, TextEditingController controller) {
