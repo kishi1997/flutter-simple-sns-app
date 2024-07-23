@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/domain/post/post_service.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/snack_bar_utils.dart';
+import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class PostCreationScreen extends StatefulWidget {
   const PostCreationScreen({super.key});
+
   @override
   PostCreationScreenState createState() => PostCreationScreenState();
 }
@@ -14,7 +15,7 @@ class PostCreationScreen extends StatefulWidget {
 class PostCreationScreenState extends State<PostCreationScreen> {
   final TextEditingController _postFormController = TextEditingController();
   int _charCount = 0;
-  static const int _maxChars = 140;
+  static const int _MAX_POST_LENGTH = 140;
   String? _postFormErrorText;
 
   @override
@@ -32,7 +33,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     super.dispose();
   }
 
-  bool get _isFormValid {
+  bool _isFormValid() {
     return CustomValidators.validatePostCreationForm(
             _postFormController.text) ==
         null;
@@ -51,47 +52,67 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
+
   Future<void> _createPost(String content) async {
     try {
-      await PostService().createPost(content);
+      final newPost = await PostService().createPost(content);
       if (!mounted) return;
       showSnackBar(context, '投稿が完了しました！');
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(newPost);
     } catch (e) {
       logError(e);
       showSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
     }
   }
+  Widget _postButton() {
+    return TextButton(
+      onPressed: _isFormValid() ? _createPost : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: _isFormValid()
+              ? Colors.white
+              : const Color.fromARGB(108, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: const Text(
+          "投稿",
+          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppHeaderWithActions(
-        title: "投稿作成",
-        buttonText: "投稿",
-        isFormValid: _isFormValid,
-        onPressed: () async {
-          await _createPost(_postFormController.text);
-        },
+      appBar: AppHeader(
+        title: '投稿作成',
+        actions: [
+          _postButton(),
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
             TextField(
               controller: _postFormController,
               maxLines: null,
+              maxLength: _MAX_POST_LENGTH,
               decoration: InputDecoration(
                 hintText: '投稿内容を記入...',
                 border: InputBorder.none,
                 errorText: _postFormErrorText,
+                // 文字数カウンターは自前で用意したものを使いたいため、デフォルトの文字カウンターは非表示
+                counterText: '',
               ),
             ),
             const Spacer(),
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                '$_charCount / $_maxChars',
+                '$_charCount / $_MAX_POST_LENGTH',
               ),
             ),
           ],

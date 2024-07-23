@@ -2,8 +2,9 @@ import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_repository.dart';
 
 class PostService {
-  Future<void> createPost(String content) async {
-    await PostRepository().createPost(content);
+  Future<Post> createPost(String content) async {
+    final post = await PostRepository().createPost(content);
+    return post;
   }
 
   Future<List<Post>> getPosts() async {
