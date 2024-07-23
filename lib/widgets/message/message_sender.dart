@@ -30,7 +30,7 @@ class MessageSenderState extends State<MessageSender> {
     // メッセージ送信のロジック
   }
 
-  bool get _isFormValid {
+  bool _isFormValid() {
     return CustomValidators.validateEmpty(_messageController.text) == null;
   }
 
@@ -63,13 +63,13 @@ class MessageSenderState extends State<MessageSender> {
         const SizedBox(width: 12.0),
         Container(
           decoration: BoxDecoration(
-            color: _isFormValid ? Colors.lightGreen : Colors.grey[200],
+            color: _isFormValid() ? Colors.lightGreen : Colors.grey[200],
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: IconButton(
             icon: const Icon(Icons.send, color: Colors.white),
             iconSize: 20,
-            onPressed: _isFormValid ? _sendMessage : null,
+            onPressed: _isFormValid() ? _sendMessage : null,
           ),
         ),
       ],
