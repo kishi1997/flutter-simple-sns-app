@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_sns_app/domain/message/message_entity.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/widgets/message/message_content.dart';
+import 'package:simple_sns_app/widgets/message/message_content_with_post.dart';
 
 class MessageItem extends StatelessWidget {
   final Message message;
@@ -12,6 +13,17 @@ class MessageItem extends StatelessWidget {
     required this.message,
   });
 
+  Widget _buildBody(bool isCurrentUser) {
+    if (message.post != null) {
+      return MessageContentWithPost(
+          post: message.post!, isCurrentUser: isCurrentUser);
+    }
+    return MessageContent(
+      message: message,
+      isCurrentUser: isCurrentUser,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<UserProvider>(context).user;
@@ -20,14 +32,12 @@ class MessageItem extends StatelessWidget {
       children: [
         const SizedBox(height: 24),
         Padding(
-            padding: EdgeInsets.only(
-              left: isCurrentUser ? 48.0 : 0.0,
-              right: isCurrentUser ? 0.0 : 40.0,
-            ),
-            child: MessageContent(
-              message: message,
-              isCurrentUser: isCurrentUser,
-            ))
+          padding: EdgeInsets.only(
+            left: isCurrentUser ? 48.0 : 0.0,
+            right: isCurrentUser ? 0.0 : 40.0,
+          ),
+          child: _buildBody(isCurrentUser),
+        ),
       ],
     );
   }
