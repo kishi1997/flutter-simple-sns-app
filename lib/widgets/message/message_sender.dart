@@ -17,6 +17,7 @@ class MessageSender extends StatefulWidget {
 class MessageSenderState extends State<MessageSender> {
   final TextEditingController _messageController = TextEditingController();
   String? _messageErrorText;
+  bool _isProcessing = false;
 
   @override
   void initState() {
@@ -33,26 +34,26 @@ class MessageSenderState extends State<MessageSender> {
   }
 
   Future<void> _createMessage(String content, String roomId) async {
+    setState(() {
+      _isProcessing = true;
+    });
     try {
       await MessageService().createMessage(content, roomId);
       widget.onMessageSent();
-      if (!mounted) return;
+      _messageController.clear();
     } catch (e) {
       logger.e(e);
       if (mounted) {
         showSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
       }
     } finally {
-      _messageController.clear();
+      setState(() {
+        _isProcessing = false;
+      });
     }
   }
 
-  void _handleSendMessage(String message, String roomId) async {
-    await _createMessage(message, roomId);
-    _messageController.clear();
-  }
-
-  bool get _isFormValid {
+  bool _isFormValid() {
     return CustomValidators.validateEmpty(_messageController.text) == null;
   }
 
@@ -85,15 +86,17 @@ class MessageSenderState extends State<MessageSender> {
         const SizedBox(width: 12.0),
         Container(
           decoration: BoxDecoration(
-            color: _isFormValid ? Colors.lightGreen : Colors.grey[200],
+            color: _isFormValid() && !_isProcessing
+                ? Colors.lightGreen
+                : Colors.grey[200],
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: IconButton(
             icon: const Icon(Icons.send, color: Colors.white),
             iconSize: 20,
             onPressed: () async {
-              _isFormValid
-                  ? _handleSendMessage(_messageController.text, widget.roomId)
+              _isFormValid() && !_isProcessing
+                  ? _createMessage(_messageController.text, widget.roomId)
                   : null;
             },
           ),
