@@ -29,6 +29,13 @@ class CustomValidators {
     }
     return null;
   }
+
+  static String? validatePostCreationForm(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return '投稿は1文字以上で入力してください';
+    }
+    return null;
+  }
 }
 
 bool isFormFieldValid(String? errorText, TextEditingController controller) {
