@@ -58,7 +58,7 @@ class RoomTileState extends State<RoomTile> {
                         style: const TextStyle(fontSize: 12)),
                     const SizedBox(width: 8.0),
                     Text(
-                      formatRelativeTime(latestMessage.createdAt),
+                      formatLatestMessageRelativeTime(latestMessage.createdAt),
                       style: const TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                   ],

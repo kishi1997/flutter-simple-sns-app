@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  PageController _pageController = PageController();
 
   static const List<Widget> _pageList = <Widget>[
     PostListScreen(),
@@ -24,35 +23,15 @@ class HomeScreenState extends State<HomeScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      _pageController.jumpToPage(index);
     });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        children: _pageList.map((Widget page) {
-          return Navigator(
-            onGenerateRoute: (settings) {
-              return MaterialPageRoute(
-                builder: (context) => page,
-              );
-            },
-          );
-        }).toList(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pageList,
       ),
       bottomNavigationBar: AppBottomNavigation(
         currentIndex: _selectedIndex,

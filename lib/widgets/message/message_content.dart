@@ -17,7 +17,7 @@ class MessageContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Text(
-        formatMonthDay(message.createdAt),
+        formatRelativeTime(message.createdAt),
         style: const TextStyle(fontSize: 10, color: Colors.grey),
       ),
     );

@@ -4,7 +4,6 @@ import 'package:simple_sns_app/domain/message/message_entity.dart';
 import 'package:simple_sns_app/domain/message/message_service.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/widgets/message/message_item.dart';
-import 'package:simple_sns_app/widgets/message/message_sender.dart';
 
 class RoomScreen extends StatefulWidget {
   final String roomId;
@@ -70,14 +69,13 @@ class RoomScreenState extends State<RoomScreen> {
         padding: const EdgeInsets.only(
           top: 0,
           right: 24.0,
-          bottom: 0,
+          bottom: 24.0,
           left: 24.0,
         ),
         child: Column(
           children: [
             Expanded(child: _buildListView()),
             const SizedBox(height: 24.0),
-            const MessageSender(),
           ],
         ),
       ),
