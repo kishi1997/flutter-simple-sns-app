@@ -12,4 +12,9 @@ class MessageService {
         await MessageRepository().createMessageVisPost(content, postId);
     return message;
   }
+
+  Future<Message> createMessage(String content, String roomId) async {
+    final message = await MessageRepository().createMessage(content, roomId);
+    return message;
+  }
 }

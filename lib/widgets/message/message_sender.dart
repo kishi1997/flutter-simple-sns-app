@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/domain/message/message_service.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
+import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class MessageSender extends StatefulWidget {
-  const MessageSender({super.key});
+  final String roomId;
+  final VoidCallback onMessageSent;
+  const MessageSender(
+      {super.key, required this.roomId, required this.onMessageSent});
 
   @override
   MessageSenderState createState() => MessageSenderState();
@@ -26,8 +32,24 @@ class MessageSenderState extends State<MessageSender> {
     super.dispose();
   }
 
-  void _sendMessage() async {
-    // メッセージ送信のロジック
+  Future<void> _createMessage(String content, String roomId) async {
+    try {
+      await MessageService().createMessage(content, roomId);
+      widget.onMessageSent();
+      if (!mounted) return;
+    } catch (e) {
+      logger.e(e);
+      if (mounted) {
+        showSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
+      }
+    } finally {
+      _messageController.clear();
+    }
+  }
+
+  void _handleSendMessage(String message, String roomId) async {
+    await _createMessage(message, roomId);
+    _messageController.clear();
   }
 
   bool get _isFormValid {
@@ -69,7 +91,11 @@ class MessageSenderState extends State<MessageSender> {
           child: IconButton(
             icon: const Icon(Icons.send, color: Colors.white),
             iconSize: 20,
-            onPressed: _isFormValid ? _sendMessage : null,
+            onPressed: () async {
+              _isFormValid
+                  ? _handleSendMessage(_messageController.text, widget.roomId)
+                  : null;
+            },
           ),
         ),
       ],

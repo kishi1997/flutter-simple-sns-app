@@ -30,4 +30,16 @@ class MessageRepository {
       throw Exception('Failed to send message vis post: $e');
     }
   }
+
+  Future<Message> createMessage(String content, String roomId) async {
+    try {
+      final res = await api.post(
+        '/messages',
+        data: {"content": content, "roomId": roomId},
+      );
+      return Message.fromJson(res.data["message"]);
+    } catch (e) {
+      throw Exception('Failed to send message: $e');
+    }
+  }
 }

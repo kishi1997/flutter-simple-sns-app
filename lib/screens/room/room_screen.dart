@@ -77,7 +77,7 @@ class RoomScreenState extends State<RoomScreen> {
           children: [
             Expanded(child: _buildListView()),
             const SizedBox(height: 24.0),
-            const MessageSender(),
+            MessageSender(roomId: widget.roomId, onMessageSent: fetchMessages),
           ],
         ),
       ),
