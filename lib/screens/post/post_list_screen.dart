@@ -14,7 +14,7 @@ class PostListScreen extends StatefulWidget {
 
 class PostListState extends State<PostListScreen> {
   List<Post> _posts = [];
-  Future<void> getPosts() async {
+  Future<void> fetchPosts() async {
     try {
       final posts = await PostService().getPosts();
       setState(() {
@@ -28,18 +28,12 @@ class PostListState extends State<PostListScreen> {
   @override
   void initState() {
     super.initState();
-    getPosts();
+    fetchPosts();
   }
 
   void _removePost(int postId) {
     setState(() {
       _posts.removeWhere((post) => post.id == postId);
-    });
-  }
-
-  void _addPost(Post newPost) {
-    setState(() {
-      _posts.insert(0, newPost);
     });
   }
 
@@ -69,13 +63,12 @@ class PostListState extends State<PostListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final newPost = await Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PostCreationScreen()),
-          );
-          if (newPost != null) {
-            _addPost(newPost);
-          }
+          ).then((_) {
+            fetchPosts();
+          });
         },
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
