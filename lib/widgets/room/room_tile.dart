@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_sns_app/domain/message/message_entity.dart';
 import 'package:simple_sns_app/domain/room/room_entity.dart';
+import 'package:simple_sns_app/domain/room_user/room_user_entity.dart';
 import 'package:simple_sns_app/screens/room/room_screen.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
@@ -18,6 +20,26 @@ class RoomTile extends StatefulWidget {
 }
 
 class RoomTileState extends State<RoomTile> {
+  RoomUser _getChatPartner(Room room, int currentUserId) {
+    return room.roomUsers.firstWhere((user) => user.userId != currentUserId);
+  }
+
+  Message _getLatestMessage(Room room) {
+    room.messages.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return room.messages.first;
+  }
+
+  Widget _buildAvatar(String? iconImageUrl) {
+    if (iconImageUrl == null) {
+      return const CircleAvatar(
+        child: Icon(Icons.person),
+      );
+    }
+    return CircleAvatar(
+      backgroundImage: NetworkImage(iconImageUrl),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<UserProvider>(context).user;
@@ -25,6 +47,8 @@ class RoomTileState extends State<RoomTile> {
         .firstWhere((user) => user.userId != currentUser?.id);
     widget.room.messages.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     final latestMessage = widget.room.messages.first;
+    final chatPartner = _getChatPartner(widget.room, currentUser!.id);
+    final latestMessage = _getLatestMessage(widget.room);
     return GestureDetector(
         onTap: () {
           Navigator.push(

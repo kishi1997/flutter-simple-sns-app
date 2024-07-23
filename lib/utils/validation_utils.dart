@@ -34,9 +34,6 @@ class CustomValidators {
     if (value == null || value.trim().isEmpty) {
       return '投稿は1文字以上で入力してください';
     }
-    if (value.length > 140) {
-      return '投稿は140文字以下で入力してください';
-    }
     return null;
   }
 
