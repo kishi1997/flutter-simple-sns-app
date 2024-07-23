@@ -15,7 +15,7 @@ class RoomListScreenState extends State<RoomListScreen> {
   List<Room> _rooms = [];
   bool _isLoading = false;
 
-  Future<void> getRooms() async {
+  Future<void> fetchRooms() async {
     setState(() {
       _isLoading = true;
     });
@@ -33,10 +33,32 @@ class RoomListScreenState extends State<RoomListScreen> {
     }
   }
 
+  Widget _buildBody() {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_rooms.isEmpty) {
+      return const Center(child: Text('チャットルームは存在しません'));
+    }
+
+    return Center(
+      child: ListView.builder(
+        itemCount: _rooms.length,
+        itemBuilder: (BuildContext context, int index) {
+          final room = _rooms[index];
+          return RoomTile(
+            room: room,
+          );
+        },
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    getRooms();
+    fetchRooms();
   }
 
   @override
@@ -44,28 +66,13 @@ class RoomListScreenState extends State<RoomListScreen> {
     return Scaffold(
       appBar: const AppHeader(title: 'ルーム一覧'),
       body: Padding(
-        padding: const EdgeInsets.only(
-          top: 0,
-          right: 24.0,
-          bottom: 24.0,
-          left: 24.0,
-        ),
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : _rooms.isEmpty
-                ? const Center(child: Text('チャットルームは存在しません'))
-                : Center(
-                    child: ListView.builder(
-                      itemCount: _rooms.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final room = _rooms[index];
-                        return RoomTile(
-                          room: room,
-                        );
-                      },
-                    ),
-                  ),
-      ),
+          padding: const EdgeInsets.only(
+            top: 0,
+            right: 24.0,
+            bottom: 24.0,
+            left: 24.0,
+          ),
+          child: _buildBody()),
     );
   }
 }
