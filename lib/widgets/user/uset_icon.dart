@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
-Widget buildUserIcon(String? iconImageUrl) {
-  if (iconImageUrl == null) {
-    return const CircleAvatar(
-      child: Icon(Icons.person),
+class BuildUserIcon extends StatelessWidget {
+  final String? iconImageUrl;
+
+  const BuildUserIcon({
+    super.key,
+    this.iconImageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (iconImageUrl != null) {
+      return const CircleAvatar(
+        child: Icon(Icons.person),
+      );
+    }
+    return CircleAvatar(
+      backgroundImage: NetworkImage(iconImageUrl!),
     );
   }
-  return CircleAvatar(
-    backgroundImage: NetworkImage(iconImageUrl),
-  );
 }
