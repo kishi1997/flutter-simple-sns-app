@@ -19,25 +19,15 @@ class MessageItem extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 24),
-        if (message.post != null)
-          Padding(
+        Padding(
             padding: EdgeInsets.only(
               left: isCurrentUser ? 48.0 : 0.0,
               right: isCurrentUser ? 0.0 : 40.0,
             ),
-            child: MessageContentWithPost(
-                post: message.post!, isCurrentUser: isCurrentUser),
-          ),
-        Padding(
-          padding: EdgeInsets.only(
-            left: isCurrentUser ? 48.0 : 0.0,
-            right: isCurrentUser ? 0.0 : 40.0,
-          ),
-          child: MessageContent(
-            message: message,
-            isCurrentUser: isCurrentUser,
-          ),
-        ),
+            child: MessageContent(
+              message: message,
+              isCurrentUser: isCurrentUser,
+            ))
       ],
     );
   }

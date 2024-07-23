@@ -19,7 +19,7 @@ class RoomScreenState extends State<RoomScreen> {
   List<Message> _messages = [];
   bool _isLoading = false;
 
-  Future<void> getMessages() async {
+  Future<void> fetchMessages() async {
     setState(() {
       _isLoading = true;
     });
@@ -40,12 +40,26 @@ class RoomScreenState extends State<RoomScreen> {
   @override
   void initState() {
     super.initState();
-    getMessages();
+    fetchMessages();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Widget _buildListView() {
+    if (_isLoading) return const Center(child: CircularProgressIndicator());
+    return ListView.builder(
+      reverse: true,
+      itemCount: _messages.length,
+      itemBuilder: (BuildContext context, int index) {
+        final message = _messages[index];
+        return MessageItem(
+          message: message,
+        );
+      },
+    );
   }
 
   @override
@@ -61,20 +75,7 @@ class RoomScreenState extends State<RoomScreen> {
         ),
         child: Column(
           children: [
-            Expanded(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      reverse: true,
-                      itemCount: _messages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final message = _messages[index];
-                        return MessageItem(
-                          message: message,
-                        );
-                      },
-                    ),
-            ),
+            Expanded(child: _buildListView()),
             const SizedBox(height: 24.0),
             const MessageSender(),
           ],
