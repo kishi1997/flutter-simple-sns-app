@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/navigation/app_bottom_navigation.dart';
-import 'package:simple_sns_app/screens/message/room_list_screen.dart';
+import 'package:simple_sns_app/screens/room/room_list_screen.dart';
 import 'package:simple_sns_app/screens/mypage/mypage_screen.dart';
 import 'package:simple_sns_app/screens/post/post_list_screen.dart';
 
