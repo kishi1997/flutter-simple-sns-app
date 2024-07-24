@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/domain/message/message_entity.dart';
+import 'package:simple_sns_app/domain/message/message_service.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
+import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class MessageSender extends StatefulWidget {
-  const MessageSender({super.key});
+  final String roomId;
+  final void Function(Message) onMessageSent;
+  const MessageSender(
+      {super.key, required this.roomId, required this.onMessageSent});
 
   @override
   MessageSenderState createState() => MessageSenderState();
@@ -11,6 +18,7 @@ class MessageSender extends StatefulWidget {
 class MessageSenderState extends State<MessageSender> {
   final TextEditingController _messageController = TextEditingController();
   String? _messageErrorText;
+  bool _isProcessing = false;
 
   @override
   void initState() {
@@ -26,8 +34,24 @@ class MessageSenderState extends State<MessageSender> {
     super.dispose();
   }
 
-  void _sendMessage() async {
-    // メッセージ送信のロジック
+  Future<void> _createMessage(String content, String roomId) async {
+    setState(() {
+      _isProcessing = true;
+    });
+    try {
+      final newMessage = await MessageService().createMessage(content, roomId);
+      widget.onMessageSent(newMessage);
+      _messageController.clear();
+    } catch (e) {
+      logger.e(e);
+      if (mounted) {
+        showSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
+      }
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
   }
 
   bool _isFormValid() {
@@ -39,6 +63,10 @@ class MessageSenderState extends State<MessageSender> {
       _messageErrorText =
           CustomValidators.validateEmpty(_messageController.text);
     });
+  }
+
+  bool _isButtonEnabled() {
+    return _isFormValid() && !_isProcessing;
   }
 
   @override
@@ -63,13 +91,17 @@ class MessageSenderState extends State<MessageSender> {
         const SizedBox(width: 12.0),
         Container(
           decoration: BoxDecoration(
-            color: _isFormValid() ? Colors.lightGreen : Colors.grey[200],
+            color: _isButtonEnabled() ? Colors.lightGreen : Colors.grey[200],
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: IconButton(
             icon: const Icon(Icons.send, color: Colors.white),
             iconSize: 20,
-            onPressed: _isFormValid() ? _sendMessage : null,
+            onPressed: () async {
+              _isButtonEnabled()
+                  ? _createMessage(_messageController.text, widget.roomId)
+                  : null;
+            },
           ),
         ),
       ],
