@@ -1,7 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
-import 'package:simple_sns_app/widgets/user/uset_icon.dart';
+import 'package:simple_sns_app/widgets/mypage/image_picker_bottom_sheet.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String name;
@@ -22,7 +23,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _iconUrlController = TextEditingController();
-
   String? _nameErrorText;
   String? _emailErrorText;
 
@@ -59,6 +59,33 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
+  void _showPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return ImagePickerBottomSheet(
+          iconUrlController: _iconUrlController,
+        );
+      },
+    );
+  }
+
+  Widget _userIcon(String iconUrl) {
+    return ClipOval(
+      child: iconUrl.isNotEmpty
+          ? Image.file(
+              File(iconUrl),
+              fit: BoxFit.cover,
+              width: 80,
+              height: 80,
+            )
+          : const Icon(
+              Icons.person,
+              size: 80,
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,22 +103,24 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               children: [
                 ConstrainedBox(
                   constraints: const BoxConstraints(
-                    maxHeight: 70,
+                    maxHeight: 80,
                   ),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: userIcon(_iconUrlController.text),
+                    child: _userIcon(_iconUrlController.text),
                   ),
                 ),
                 const SizedBox(height: 16),
                 GestureDetector(
-                    // onTap: 画像変更処理,
+                    onTap: () {
+                      _showPicker(context);
+                    },
                     child: const Text(
-                  'アイコン画像を変更',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
-                )),
+                      'アイコン画像を変更',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    )),
                 const SizedBox(height: 32),
                 TextFormField(
                   controller: _nameController,
