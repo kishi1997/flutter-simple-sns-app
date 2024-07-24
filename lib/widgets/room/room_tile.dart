@@ -49,7 +49,10 @@ class RoomTileState extends State<RoomTile> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const RoomScreen()),
+            MaterialPageRoute(
+                builder: (context) => RoomScreen(
+                    roomId: widget.room.id,
+                    chatPartnerName: chatPartner.user!.name)),
           );
         },
         child: Column(children: [
@@ -68,7 +71,8 @@ class RoomTileState extends State<RoomTile> {
                       ),
                       const SizedBox(width: 8.0),
                       Text(
-                        formatRelativeTime(latestMessage.createdAt),
+                        formatLatestMessageRelativeTime(
+                            latestMessage.createdAt),
                         style:
                             const TextStyle(fontSize: 10, color: Colors.grey),
                       ),
