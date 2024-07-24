@@ -73,12 +73,19 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   Widget _userIcon(String iconUrl) {
     return ClipOval(
       child: iconUrl.isNotEmpty
-          ? Image.file(
-              File(iconUrl),
-              fit: BoxFit.cover,
-              width: 80,
-              height: 80,
-            )
+          ? (iconUrl.startsWith('http')
+              ? Image.network(
+                  iconUrl,
+                  fit: BoxFit.cover,
+                  width: 80,
+                  height: 80,
+                )
+              : Image.file(
+                  File(iconUrl),
+                  fit: BoxFit.cover,
+                  width: 80,
+                  height: 80,
+                ))
           : const Icon(
               Icons.person,
               size: 80,
