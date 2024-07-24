@@ -37,6 +37,12 @@ class RoomScreenState extends State<RoomScreen> {
     }
   }
 
+  void _addNewMessage(Message newMessage) {
+    setState(() {
+      _messages.insert(0, newMessage);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,7 +83,7 @@ class RoomScreenState extends State<RoomScreen> {
           children: [
             Expanded(child: _buildListView()),
             const SizedBox(height: 24.0),
-            MessageSender(roomId: widget.roomId, onMessageSent: fetchMessages),
+            MessageSender(roomId: widget.roomId, onMessageSent: _addNewMessage),
           ],
         ),
       ),

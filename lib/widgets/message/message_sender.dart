@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/domain/message/message_entity.dart';
 import 'package:simple_sns_app/domain/message/message_service.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/snack_bar_utils.dart';
@@ -6,7 +7,7 @@ import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class MessageSender extends StatefulWidget {
   final String roomId;
-  final VoidCallback onMessageSent;
+  final void Function(Message) onMessageSent;
   const MessageSender(
       {super.key, required this.roomId, required this.onMessageSent});
 
@@ -38,8 +39,8 @@ class MessageSenderState extends State<MessageSender> {
       _isProcessing = true;
     });
     try {
-      await MessageService().createMessage(content, roomId);
-      widget.onMessageSent();
+      final newMessage = await MessageService().createMessage(content, roomId);
+      widget.onMessageSent(newMessage);
       _messageController.clear();
     } catch (e) {
       logger.e(e);
@@ -62,6 +63,10 @@ class MessageSenderState extends State<MessageSender> {
       _messageErrorText =
           CustomValidators.validateEmpty(_messageController.text);
     });
+  }
+
+  bool _isButtonEnabled() {
+    return _isFormValid() && !_isProcessing;
   }
 
   @override
@@ -95,7 +100,7 @@ class MessageSenderState extends State<MessageSender> {
             icon: const Icon(Icons.send, color: Colors.white),
             iconSize: 20,
             onPressed: () async {
-              _isFormValid() && !_isProcessing
+              _isButtonEnabled()
                   ? _createMessage(_messageController.text, widget.roomId)
                   : null;
             },
