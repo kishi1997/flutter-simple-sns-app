@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/screens/mypage/edit_profile.dart';
+import 'package:simple_sns_app/screens/onboarding_screen.dart';
+import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/utils/link_utils.dart';
 import 'package:simple_sns_app/utils/snack_bar_utils.dart';
+import 'package:simple_sns_app/utils/token_utils.dart';
 import 'package:simple_sns_app/widgets/user/uset_icon.dart';
 
 const String TERMS_OF_SERVICE_URL =
@@ -35,6 +38,58 @@ class MypageScreen extends StatelessWidget {
         title: Text(text),
         trailing: const Icon(Icons.chevron_right),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+              child: Text(
+            'ログアウトしますか？',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          )),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text('キャンセル', style: TextStyle(color: Colors.black)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text('ログアウト',
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
+              onPressed: () {
+                tokenStorage.deleteToken();
+                userProvider.clearUser();
+                showSnackBar(context, "ログアウトしました");
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OnboardingScreen()),
+                  (route) => false,
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -93,7 +148,7 @@ class MypageScreen extends StatelessWidget {
           title: const Text('ログアウト'),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            // ログアウト処理
+            _showLogoutDialog(context);
           },
         ),
       ]),
