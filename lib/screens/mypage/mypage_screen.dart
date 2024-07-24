@@ -29,7 +29,7 @@ class MypageScreen extends StatelessWidget {
   Widget _linkListTile(BuildContext context, String linkUrl, String text) {
     return GestureDetector(
       onTap: () async {
-        await _moveToLink(context, TERMS_OF_SERVICE_URL);
+        await _moveToLink(context, linkUrl);
       },
       child: ListTile(
         title: Text(text),
