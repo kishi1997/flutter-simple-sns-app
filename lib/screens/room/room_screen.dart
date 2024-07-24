@@ -54,7 +54,7 @@ class RoomScreenState extends State<RoomScreen> {
     super.dispose();
   }
 
-  Widget _buildListView() {
+  Widget _buildMessageListView() {
     if (_isLoading) return const Center(child: CircularProgressIndicator());
     return ListView.builder(
       reverse: true,
@@ -81,7 +81,7 @@ class RoomScreenState extends State<RoomScreen> {
         ),
         child: Column(
           children: [
-            Expanded(child: _buildListView()),
+            Expanded(child: _buildMessageListView()),
             const SizedBox(height: 24.0),
             MessageSender(roomId: widget.roomId, onMessageSent: _addNewMessage),
           ],

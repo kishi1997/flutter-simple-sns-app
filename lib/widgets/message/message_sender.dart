@@ -91,9 +91,7 @@ class MessageSenderState extends State<MessageSender> {
         const SizedBox(width: 12.0),
         Container(
           decoration: BoxDecoration(
-            color: _isFormValid() && !_isProcessing
-                ? Colors.lightGreen
-                : Colors.grey[200],
+            color: _isButtonEnabled() ? Colors.lightGreen : Colors.grey[200],
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: IconButton(

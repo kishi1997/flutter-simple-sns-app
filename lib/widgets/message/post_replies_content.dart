@@ -3,11 +3,11 @@ import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
 
-class MessageContentWithPost extends StatelessWidget {
+class PostRepliesContent extends StatelessWidget {
   final Post post;
   final bool isCurrentUser;
 
-  const MessageContentWithPost(
+  const PostRepliesContent(
       {super.key, required this.post, required this.isCurrentUser});
 
   Widget _buildPostAuthorIcon(User? postAuthor) {
