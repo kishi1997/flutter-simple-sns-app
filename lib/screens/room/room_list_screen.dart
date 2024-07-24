@@ -62,6 +62,11 @@ class RoomListScreenState extends State<RoomListScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppHeader(title: 'ルーム一覧'),
