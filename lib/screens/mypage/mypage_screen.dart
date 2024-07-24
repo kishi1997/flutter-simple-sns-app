@@ -140,6 +140,7 @@ class MypageScreen extends StatelessWidget {
                 builder: (context) => EditProfileScreen(
                   name: currentUser!.name,
                   email: currentUser.email!,
+                  iconUrl: currentUser.iconImageUrl!,
                 ),
               ),
             );
