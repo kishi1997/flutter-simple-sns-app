@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class BuildUserIcon extends StatelessWidget {
+class UserIcon extends StatelessWidget {
   final String? iconImageUrl;
 
-  const BuildUserIcon({
+  const UserIcon({
     super.key,
     this.iconImageUrl,
   });

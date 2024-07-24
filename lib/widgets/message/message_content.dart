@@ -30,7 +30,7 @@ class MessageContent extends StatelessWidget {
         child: SizedBox(
             width: 40.0,
             height: 40.0,
-            child: BuildUserIcon(iconImageUrl: message.user?.iconImageUrl)));
+            child: UserIcon(iconImageUrl: message.user?.iconImageUrl)));
   }
 
   @override
