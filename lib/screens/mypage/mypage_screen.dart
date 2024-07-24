@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/screens/mypage/edit_profile.dart';
 import 'package:simple_sns_app/screens/onboarding_screen.dart';
-import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/utils/link_utils.dart';
@@ -16,18 +15,18 @@ const String TERMS_OF_SERVICE_URL =
 const String PRIVACY_POLICY_URL =
     'https://anycloud.notion.site/e91dc1d372554c8e9168c47f95a1d850?pvs=4';
 
-Future<void> _moveToLink(BuildContext context, String url) async {
-  try {
-    await launchURL(url);
-  } catch (e) {
-    if (!context.mounted) return;
-    logError(e);
-    showSnackBar(context, 'エラーが発生しました。しばらく経ってからもう一度お試しください。');
-  }
-}
-
 class MypageScreen extends StatelessWidget {
   const MypageScreen({super.key});
+
+  Future<void> _moveToLink(BuildContext context, String url) async {
+    try {
+      await launchURL(url);
+    } catch (e) {
+      if (!context.mounted) return;
+      logError(e);
+      showSnackBar(context, 'エラーが発生しました。しばらく経ってからもう一度お試しください。');
+    }
+  }
 
   Widget _linkListTile(BuildContext context, String linkUrl, String text) {
     return GestureDetector(
