@@ -48,6 +48,29 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         CustomValidators.validateEmail(_emailController.text) == null;
   }
 
+  // 仮のプロフィール変更処理
+  void _updateProfile() {}
+  Widget _updateProfileButton() {
+    return TextButton(
+      onPressed: () async {
+        _isFormValid() ? _updateProfile : null;
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: _isFormValid()
+              ? Colors.white
+              : const Color.fromARGB(108, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: const Text(
+          "保存s",
+          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
+        ),
+      ),
+    );
+  }
+
   void _validateField(String field) {
     setState(() {
       if (field == 'name') {
@@ -62,13 +85,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppHeaderWithActions(
-            title: 'プロフィール編集dayo',
-            buttonText: "保存",
-            isFormValid: _isFormValid(),
-            onPressed: () async {
-              // プロフィール変更処理
-            }),
+        appBar: AppHeader(title: 'プロフィール編集', actions: [_updateProfileButton()]),
         body: Padding(
             padding: const EdgeInsets.only(
                 top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
@@ -80,7 +97,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: userIcon(_iconUrlController.text),
+                    child: UserIcon(iconImageUrl: _iconUrlController.text),
                   ),
                 ),
                 const SizedBox(height: 16),
