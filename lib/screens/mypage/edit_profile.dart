@@ -34,6 +34,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     _iconUrlController.text = widget.iconUrl;
     _nameController.addListener(() => _validateField('name'));
     _emailController.addListener(() => _validateField('email'));
+    _iconUrlController.addListener(() => _onIconUrlChanged);
   }
 
   @override
@@ -46,6 +47,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   bool _isFormValid() {
     return CustomValidators.validateUsername(_nameController.text) == null &&
         CustomValidators.validateEmail(_emailController.text) == null;
+  }
+
+  void _onIconUrlChanged() {
+    _userIcon(_iconUrlController.text);
   }
 
   void _validateField(String field) {
@@ -71,25 +76,31 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget _userIcon(String iconUrl) {
+    if (iconUrl.isEmpty) {
+      return const ClipOval(
+        child: Icon(
+          Icons.person,
+          size: 80,
+        ),
+      );
+    }
+
+    Widget imageWidget;
+    if (iconUrl.startsWith('http')) {
+      imageWidget = Image.network(iconUrl);
+    } else {
+      imageWidget = Image.file(File(iconUrl));
+    }
+
     return ClipOval(
-      child: iconUrl.isNotEmpty
-          ? (iconUrl.startsWith('http')
-              ? Image.network(
-                  iconUrl,
-                  fit: BoxFit.cover,
-                  width: 80,
-                  height: 80,
-                )
-              : Image.file(
-                  File(iconUrl),
-                  fit: BoxFit.cover,
-                  width: 80,
-                  height: 80,
-                ))
-          : const Icon(
-              Icons.person,
-              size: 80,
-            ),
+      child: SizedBox(
+        width: 80,
+        height: 80,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: imageWidget,
+        ),
+      ),
     );
   }
 
@@ -97,7 +108,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppHeaderWithActions(
-            title: 'プロフィール編集dayo',
+            title: 'プロフィール編集',
             buttonText: "保存",
             isFormValid: _isFormValid(),
             onPressed: () async {
@@ -112,9 +123,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   constraints: const BoxConstraints(
                     maxHeight: 80,
                   ),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: _userIcon(_iconUrlController.text),
+                  child: ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: _iconUrlController,
+                    builder: (context, value, child) {
+                      return _userIcon(value.text);
+                    },
                   ),
                 ),
                 const SizedBox(height: 16),
