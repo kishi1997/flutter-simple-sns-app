@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 import 'package:simple_sns_app/widgets/mypage/image_picker_bottom_sheet.dart';
+import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String name;
@@ -50,7 +50,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _onIconUrlChanged() {
-    _userIcon(_iconUrlController.text);
+    ProfileIcon(iconImageUrl: _iconUrlController.text);
   }
 
   void _validateField(String field) {
@@ -72,35 +72,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
           iconUrlController: _iconUrlController,
         );
       },
-    );
-  }
-
-  Widget _userIcon(String iconUrl) {
-    if (iconUrl.isEmpty) {
-      return const ClipOval(
-        child: Icon(
-          Icons.person,
-          size: 80,
-        ),
-      );
-    }
-
-    Widget imageWidget;
-    if (iconUrl.startsWith('http')) {
-      imageWidget = Image.network(iconUrl);
-    } else {
-      imageWidget = Image.file(File(iconUrl));
-    }
-
-    return ClipOval(
-      child: SizedBox(
-        width: 80,
-        height: 80,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: imageWidget,
-        ),
-      ),
     );
   }
 
@@ -126,7 +97,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   child: ValueListenableBuilder<TextEditingValue>(
                     valueListenable: _iconUrlController,
                     builder: (context, value, child) {
-                      return _userIcon(value.text);
+                      return ProfileIcon(iconImageUrl: value.text);
                     },
                   ),
                 ),
