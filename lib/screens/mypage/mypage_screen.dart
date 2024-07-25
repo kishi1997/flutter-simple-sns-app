@@ -40,6 +40,17 @@ class MypageScreen extends StatelessWidget {
     );
   }
 
+  void handleLogout(BuildContext context) {
+    tokenStorage.deleteToken();
+    userProvider.clearUser();
+    showSnackBar(context, "ログアウトしました");
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      (route) => false,
+    );
+  }
+
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -75,15 +86,7 @@ class MypageScreen extends StatelessWidget {
                     color: Colors.white,
                   )),
               onPressed: () {
-                tokenStorage.deleteToken();
-                userProvider.clearUser();
-                showSnackBar(context, "ログアウトしました");
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OnboardingScreen()),
-                  (route) => false,
-                );
+                handleLogout(context);
               },
             ),
           ],
