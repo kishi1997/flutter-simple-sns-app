@@ -14,7 +14,14 @@ class PostListScreen extends StatefulWidget {
 
 class PostListState extends State<PostListScreen> {
   List<Post> _posts = [];
+  bool _isLoading = false;
+
   Future<void> fetchPosts() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
     try {
       final posts = await PostService().getPosts();
       setState(() {
@@ -22,6 +29,10 @@ class PostListState extends State<PostListScreen> {
       });
     } catch (e) {
       logError(e);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -72,7 +83,7 @@ class PostListState extends State<PostListScreen> {
             context,
             MaterialPageRoute(builder: (context) => const PostCreationScreen()),
           );
-          fetchPosts();
+          await fetchPosts();
         },
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
