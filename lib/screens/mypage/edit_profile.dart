@@ -50,6 +50,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   // 仮のプロフィール変更処理
   void _updateProfile() {}
+
   Widget _updateProfileButton() {
     return TextButton(
       onPressed: () async {
@@ -64,7 +65,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: const Text(
-          "保存s",
+          "保存",
           style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
         ),
       ),
