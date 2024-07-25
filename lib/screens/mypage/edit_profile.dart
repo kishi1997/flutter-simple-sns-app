@@ -1,20 +1,22 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
+import 'package:simple_sns_app/domain/account/account_service.dart';
+import 'package:simple_sns_app/utils/logger_utils.dart';
+import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 import 'package:simple_sns_app/widgets/mypage/image_picker_bottom_sheet.dart';
+import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String name;
   final String email;
-  final String iconUrl;
+  final String iconImageUrl;
 
   const EditProfileScreen(
       {super.key,
       required this.name,
       required this.email,
-      required this.iconUrl});
-
+      required this.iconImageUrl});
   @override
   EditProfileScreenState createState() => EditProfileScreenState();
 }
@@ -25,83 +27,103 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _iconUrlController = TextEditingController();
   String? _nameErrorText;
   String? _emailErrorText;
+  bool _isProcessing = false;
 
   @override
   void initState() {
     super.initState();
     _nameController.text = widget.name;
     _emailController.text = widget.email;
-    _iconUrlController.text = widget.iconUrl;
-    _nameController.addListener(() => _validateField('name'));
-    _emailController.addListener(() => _validateField('email'));
-    _iconUrlController.addListener(() => _onIconUrlChanged);
+    _iconUrlController.text = widget.iconImageUrl;
+    _addListeners();
+  }
+
+  void _addListeners() {
+    void listener() {
+      _validateField();
+      _checkFormChanged();
+    }
+
+    _nameController.addListener(listener);
+    _emailController.addListener(listener);
+    _iconUrlController.addListener(listener);
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _iconUrlController.dispose();
     super.dispose();
   }
 
-  bool _isFormValid() {
-    return CustomValidators.validateUsername(_nameController.text) == null &&
-        CustomValidators.validateEmail(_emailController.text) == null;
-  }
-
-  void _onIconUrlChanged() {
-    _userIcon(_iconUrlController.text);
-  }
-
-  void _validateField(String field) {
+// バリデーションチェック
+  void _validateField() {
     setState(() {
-      if (field == 'name') {
-        _nameErrorText =
-            CustomValidators.validateUsername(_nameController.text);
-      } else if (field == 'email') {
-        _emailErrorText = CustomValidators.validateEmail(_emailController.text);
-      }
+      _nameErrorText = CustomValidators.validateUsername(_nameController.text);
+      _emailErrorText = CustomValidators.validateEmail(_emailController.text);
     });
+  }
+
+// フォームの値が変更されているか
+  bool _checkFormChanged() {
+    return _nameController.text != widget.name ||
+        _emailController.text != widget.email ||
+        _iconUrlController.text != widget.iconImageUrl;
+  }
+
+// フォームが有効か
+  bool _isFormValid() {
+    return _nameErrorText == null &&
+        _emailErrorText == null &&
+        _checkFormChanged();
+  }
+
+// ボタンがタップ可能か
+  bool _isButtonEnabled() {
+    return _isFormValid() && !_isProcessing;
   }
 
   void _showPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc) {
-        return ImagePickerBottomSheet(
-          iconUrlController: _iconUrlController,
-        );
-      },
+      builder: (BuildContext bc) => ImagePickerBottomSheet(
+        iconUrlController: _iconUrlController,
+      ),
     );
   }
 
-  Widget _userIcon(String iconUrl) {
-    if (iconUrl.isEmpty) {
-      return const ClipOval(
-        child: Icon(
-          Icons.person,
-          size: 80,
-        ),
-      );
+  Future<void> _updateProfile() async {
+    final newName = _nameController.text;
+    final newEmail = _emailController.text;
+    final newIconUrl = _iconUrlController.text;
+
+    if (newName != widget.name || newEmail != widget.email) {
+      await AccountService().updateProfile(newName, newEmail);
     }
 
-    Widget imageWidget;
-    if (iconUrl.startsWith('http')) {
-      imageWidget = Image.network(iconUrl);
-    } else {
-      imageWidget = Image.file(File(iconUrl));
+    if (newIconUrl != widget.iconImageUrl) {
+      await AccountService().updateIconImage(newIconUrl);
     }
+  }
 
-    return ClipOval(
-      child: SizedBox(
-        width: 80,
-        height: 80,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: imageWidget,
-        ),
-      ),
-    );
+  Future<void> _handleUpdateProfile(BuildContext context) async {
+    setState(() {
+      _isProcessing = true;
+    });
+    try {
+      await _updateProfile();
+      if (!context.mounted) return;
+      showSnackBar(context, "プロフィールを変更しました");
+      Navigator.of(context).pop();
+    } catch (e) {
+      logError(e);
+      showSnackBar(context, "プロフィール変更中に一時的なエラーが発生しました、お手数ですが再度お試しください");
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
   }
 
   @override
@@ -110,9 +132,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         appBar: AppHeaderWithActions(
             title: 'プロフィール編集',
             buttonText: "保存",
-            isFormValid: _isFormValid(),
+            isFormValid: _isButtonEnabled(),
             onPressed: () async {
-              // プロフィール変更処理
+              _isButtonEnabled() ? _handleUpdateProfile(context) : null;
             }),
         body: Padding(
             padding: const EdgeInsets.only(
@@ -126,7 +148,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   child: ValueListenableBuilder<TextEditingValue>(
                     valueListenable: _iconUrlController,
                     builder: (context, value, child) {
-                      return _userIcon(value.text);
+                      return ProfileIcon(iconImageUrl: value.text);
                     },
                   ),
                 ),

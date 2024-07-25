@@ -1,3 +1,6 @@
+// import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:simple_sns_app/domain/account/account_entity.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
 import 'package:simple_sns_app/utils/api.dart';
@@ -26,6 +29,34 @@ class AccountRepository {
       return User.fromJson(res.data["user"]);
     } catch (e) {
       throw Exception('Failed to get account: $e');
+    }
+  }
+
+  Future<User> updateProfile(String name, String email) async {
+    try {
+      final res = await api.patch(
+        '/account/profile',
+        data: {'name': name, 'email': email},
+      );
+      return User.fromJson(res.data["user"]);
+    } catch (e) {
+      throw Exception('Failed to update profile: $e');
+    }
+  }
+
+  Future<User> updateIconImage(String filePath) async {
+    try {
+      final fileName = filePath.split('/').last;
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(filePath, filename: fileName),
+      });
+      final res = await api.patch(
+        '/account/icon_image',
+        data: formData,
+      );
+      return User.fromJson(res.data["user"]);
+    } catch (e) {
+      throw Exception('Failed to update iconImage: $e');
     }
   }
 }
