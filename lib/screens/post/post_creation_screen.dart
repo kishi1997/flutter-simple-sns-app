@@ -52,7 +52,6 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
-
   Future<void> _createPost(String content) async {
     try {
       final newPost = await PostService().createPost(content);
@@ -64,9 +63,12 @@ class PostCreationScreenState extends State<PostCreationScreen> {
       showSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
     }
   }
+
   Widget _postButton() {
     return TextButton(
-      onPressed: _isFormValid() ? _createPost : null,
+      onPressed: () async {
+        _isFormValid() ? _createPost(_postFormController.text) : null;
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
         decoration: BoxDecoration(
