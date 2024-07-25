@@ -16,7 +16,7 @@ const String PRIVACY_POLICY_URL =
 class MypageScreen extends StatelessWidget {
   const MypageScreen({super.key});
 
-  Future<void> _moveToLink(BuildContext context, String url) async {
+  Future<void> _launchLink(BuildContext context, String url) async {
     try {
       await launchURL(url);
     } catch (e) {
@@ -29,7 +29,7 @@ class MypageScreen extends StatelessWidget {
   Widget _linkListTile(BuildContext context, String linkUrl, String text) {
     return GestureDetector(
       onTap: () async {
-        await _moveToLink(context, linkUrl);
+        await _launchLink(context, linkUrl);
       },
       child: ListTile(
         title: Text(text),
