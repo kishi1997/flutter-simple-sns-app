@@ -18,7 +18,7 @@ const String PRIVACY_POLICY_URL =
 class MypageScreen extends StatelessWidget {
   const MypageScreen({super.key});
 
-  Future<void> _moveToLink(BuildContext context, String url) async {
+  Future<void> _launchLink(BuildContext context, String url) async {
     try {
       await launchURL(url);
     } catch (e) {
@@ -31,12 +31,23 @@ class MypageScreen extends StatelessWidget {
   Widget _linkListTile(BuildContext context, String linkUrl, String text) {
     return GestureDetector(
       onTap: () async {
-        await _moveToLink(context, linkUrl);
+        await _launchLink(context, linkUrl);
       },
       child: ListTile(
         title: Text(text),
         trailing: const Icon(Icons.chevron_right),
       ),
+    );
+  }
+
+  void handleLogout(BuildContext context) {
+    tokenStorage.deleteToken();
+    userProvider.clearUser();
+    showSnackBar(context, "ログアウトしました");
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      (route) => false,
     );
   }
 
@@ -75,15 +86,7 @@ class MypageScreen extends StatelessWidget {
                     color: Colors.white,
                   )),
               onPressed: () {
-                tokenStorage.deleteToken();
-                userProvider.clearUser();
-                showSnackBar(context, "ログアウトしました");
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OnboardingScreen()),
-                  (route) => false,
-                );
+                handleLogout(context);
               },
             ),
           ],
