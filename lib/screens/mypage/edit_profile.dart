@@ -65,29 +65,22 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
-
 // フォームの値が変更されているか
   bool _checkFormChanged() {
     return _nameController.text != widget.name ||
         _emailController.text != widget.email ||
         _iconUrlController.text != widget.iconImageUrl;
-
-  void _onIconUrlChanged() {
-    ProfileIcon(iconImageUrl: _iconUrlController.text);
   }
 
-  // 仮のプロフィール変更処理
-  void _updateProfile() {}
-
-  Widget _updateProfileButton() {
+  Widget _updateProfileButton(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        _isFormValid() ? _updateProfile : null;
+        _isButtonEnabled() ? _handleUpdateProfile(context) : null;
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
         decoration: BoxDecoration(
-          color: _isFormValid()
+          color: _isButtonEnabled()
               ? Colors.white
               : const Color.fromARGB(108, 255, 255, 255),
           borderRadius: BorderRadius.circular(20.0),
@@ -115,7 +108,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   void _showPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc) => ImagePickerBottomSheet(
+      builder: (BuildContext bc) => IconImagePicker(
         iconUrlController: _iconUrlController,
       ),
     );
@@ -157,25 +150,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppHeaderWithActions(
-            title: 'プロフィール編集',
-            buttonText: "保存",
-            isFormValid: _isButtonEnabled(),
-            onPressed: () async {
-              _isButtonEnabled() ? _handleUpdateProfile(context) : null;
-            }),
-      builder: (BuildContext bc) {
-        return IconImagePicker(
-          iconUrlController: _iconUrlController,
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppHeader(title: 'プロフィール編集', actions: [_updateProfileButton()]),
+        appBar: AppHeader(
+            title: 'プロフィール編集', actions: [_updateProfileButton(context)]),
         body: Padding(
             padding: const EdgeInsets.only(
                 top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
