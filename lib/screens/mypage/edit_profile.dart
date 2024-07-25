@@ -51,6 +51,29 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   void _onIconUrlChanged() {
     ProfileIcon(iconImageUrl: _iconUrlController.text);
+
+  // 仮のプロフィール変更処理
+  void _updateProfile() {}
+
+  Widget _updateProfileButton() {
+    return TextButton(
+      onPressed: () async {
+        _isFormValid() ? _updateProfile : null;
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: _isFormValid()
+              ? Colors.white
+              : const Color.fromARGB(108, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: const Text(
+          "保存",
+          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
+        ),
+      ),
+    );
   }
 
   void _validateField(String field) {
@@ -78,13 +101,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppHeaderWithActions(
-            title: 'プロフィール編集',
-            buttonText: "保存",
-            isFormValid: _isFormValid(),
-            onPressed: () async {
-              // プロフィール変更処理
-            }),
+        appBar: AppHeader(title: 'プロフィール編集', actions: [_updateProfileButton()]),
         body: Padding(
             padding: const EdgeInsets.only(
                 top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
@@ -99,7 +116,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     builder: (context, value, child) {
                       return ProfileIcon(iconImageUrl: value.text);
                     },
-                  ),
                 ),
                 const SizedBox(height: 16),
                 GestureDetector(
