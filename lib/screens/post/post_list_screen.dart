@@ -67,11 +67,12 @@ class PostListState extends State<PostListScreen> {
             ),
           )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PostCreationScreen()),
           );
+          fetchPosts();
         },
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
