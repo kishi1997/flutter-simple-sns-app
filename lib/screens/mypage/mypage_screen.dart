@@ -111,7 +111,7 @@ class MypageScreen extends StatelessWidget {
                 ),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: userIcon(currentUser?.iconImageUrl),
+                  child: UserIcon(iconImageUrl: currentUser?.iconImageUrl),
                 ),
               ),
               const SizedBox(width: 24.0),
