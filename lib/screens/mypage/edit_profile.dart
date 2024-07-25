@@ -4,7 +4,7 @@ import 'package:simple_sns_app/domain/account/account_service.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
-import 'package:simple_sns_app/widgets/mypage/image_picker_bottom_sheet.dart';
+import 'package:simple_sns_app/widgets/mypage/icon_image_picker.dart';
 import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -65,11 +65,39 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
+
 // フォームの値が変更されているか
   bool _checkFormChanged() {
     return _nameController.text != widget.name ||
         _emailController.text != widget.email ||
         _iconUrlController.text != widget.iconImageUrl;
+
+  void _onIconUrlChanged() {
+    ProfileIcon(iconImageUrl: _iconUrlController.text);
+  }
+
+  // 仮のプロフィール変更処理
+  void _updateProfile() {}
+
+  Widget _updateProfileButton() {
+    return TextButton(
+      onPressed: () async {
+        _isFormValid() ? _updateProfile : null;
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: _isFormValid()
+              ? Colors.white
+              : const Color.fromARGB(108, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: const Text(
+          "保存",
+          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
+        ),
+      ),
+    );
   }
 
 // フォームが有効か
@@ -136,6 +164,18 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             onPressed: () async {
               _isButtonEnabled() ? _handleUpdateProfile(context) : null;
             }),
+      builder: (BuildContext bc) {
+        return IconImagePicker(
+          iconUrlController: _iconUrlController,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppHeader(title: 'プロフィール編集', actions: [_updateProfileButton()]),
         body: Padding(
             padding: const EdgeInsets.only(
                 top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
