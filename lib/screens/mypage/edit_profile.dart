@@ -57,7 +57,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
-// バリデーションチェック
   void _validateField() {
     setState(() {
       _nameErrorText = CustomValidators.validateUsername(_nameController.text);
@@ -65,42 +64,18 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
-// フォームの値が変更されているか
   bool _checkFormChanged() {
     return _nameController.text != widget.name ||
         _emailController.text != widget.email ||
         _iconUrlController.text != widget.iconImageUrl;
   }
 
-  Widget _updateProfileButton(BuildContext context) {
-    return TextButton(
-      onPressed: () async {
-        _isButtonEnabled() ? _handleUpdateProfile(context) : null;
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-        decoration: BoxDecoration(
-          color: _isButtonEnabled()
-              ? Colors.white
-              : const Color.fromARGB(108, 255, 255, 255),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: const Text(
-          "保存",
-          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
-        ),
-      ),
-    );
-  }
-
-// フォームが有効か
   bool _isFormValid() {
     return _nameErrorText == null &&
         _emailErrorText == null &&
         _checkFormChanged();
   }
 
-// ボタンがタップ可能か
   bool _isButtonEnabled() {
     return _isFormValid() && !_isProcessing;
   }
@@ -145,6 +120,27 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         _isProcessing = false;
       });
     }
+  }
+
+  Widget _updateProfileButton(BuildContext context) {
+    return TextButton(
+      onPressed: () async {
+        _isButtonEnabled() ? _handleUpdateProfile(context) : null;
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: _isButtonEnabled()
+              ? Colors.white
+              : const Color.fromARGB(108, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: const Text(
+          "保存",
+          style: TextStyle(color: Colors.lightGreen, fontSize: 16.0),
+        ),
+      ),
+    );
   }
 
   @override
