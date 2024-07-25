@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
-import 'package:simple_sns_app/widgets/mypage/image_picker_bottom_sheet.dart';
+import 'package:simple_sns_app/widgets/mypage/icon_image_picker.dart';
 import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -51,6 +51,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   void _onIconUrlChanged() {
     ProfileIcon(iconImageUrl: _iconUrlController.text);
+  }
 
   // 仮のプロフィール変更処理
   void _updateProfile() {}
@@ -91,7 +92,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
-        return ImagePickerBottomSheet(
+        return IconImagePicker(
           iconUrlController: _iconUrlController,
         );
       },
@@ -116,6 +117,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     builder: (context, value, child) {
                       return ProfileIcon(iconImageUrl: value.text);
                     },
+                  ),
                 ),
                 const SizedBox(height: 16),
                 GestureDetector(

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImagePickerBottomSheet extends StatefulWidget {
+class IconImagePicker extends StatefulWidget {
   final TextEditingController iconUrlController;
 
-  const ImagePickerBottomSheet({
+  const IconImagePicker({
     super.key,
     required this.iconUrlController,
   });
 
   @override
-  ImagePickerBottomSheetState createState() => ImagePickerBottomSheetState();
+  IconImagePickerState createState() => IconImagePickerState();
 }
 
-class ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
+class IconImagePickerState extends State<IconImagePicker> {
   @override
   Widget build(BuildContext context) {
     final picker = ImagePicker();
