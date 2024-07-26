@@ -19,9 +19,7 @@ class PostListState extends State<PostListScreen> {
   Future<void> fetchPosts() async {
     if (_isLoading) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    _isLoading = true;
     try {
       final posts = await PostService().getPosts();
       setState(() {
