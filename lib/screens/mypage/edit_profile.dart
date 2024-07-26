@@ -93,9 +93,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _handleUpdateProfile(BuildContext context) async {
-    setState(() {
-      _isProcessing = true;
-    });
+    _isProcessing = true;
     try {
       await _updateProfile();
       if (!context.mounted) return;
@@ -105,9 +103,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       logError(e);
       showSnackBar(context, "プロフィール変更中に一時的なエラーが発生しました、お手数ですが再度お試しください");
     } finally {
-      setState(() {
-        _isProcessing = false;
-      });
+      _isProcessing = false;
     }
   }
 
