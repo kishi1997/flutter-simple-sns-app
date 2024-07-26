@@ -15,8 +15,6 @@ class IconImagePicker extends StatefulWidget {
 }
 
 class IconImagePickerState extends State<IconImagePicker> {
-  File? _selectedFile;
-
   @override
   void initState() {
     super.initState();
@@ -26,10 +24,8 @@ class IconImagePickerState extends State<IconImagePicker> {
     final picker = ImagePicker();
     final XFile? file = await picker.pickImage(source: source);
     if (file != null) {
-      setState(() {
-        _selectedFile = File(file.path);
-      });
-      widget.onImagePicked(_selectedFile);
+      final pickedFile = File(file.path);
+      widget.onImagePicked(pickedFile);
     }
   }
 
