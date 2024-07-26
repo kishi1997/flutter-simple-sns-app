@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
@@ -22,7 +24,7 @@ class EditProfileScreen extends StatefulWidget {
 class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _iconUrlController = TextEditingController();
+  File? _image;
   String? _nameErrorText;
   String? _emailErrorText;
 
@@ -31,10 +33,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     _nameController.text = widget.name;
     _emailController.text = widget.email;
-    _iconUrlController.text = widget.iconUrl;
     _nameController.addListener(() => _validateField('name'));
     _emailController.addListener(() => _validateField('email'));
-    _iconUrlController.addListener(() => _onIconUrlChanged);
   }
 
   @override
@@ -49,12 +49,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         CustomValidators.validateEmail(_emailController.text) == null;
   }
 
-  void _onIconUrlChanged() {
-    ProfileIcon(iconImageUrl: _iconUrlController.text);
-  }
-
-  // 仮のプロフィール変更処理
-  void _updateProfile() {}
+  // 仮のプロフィール変更の非同期処理
+  Future<void> _updateProfile() async {}
 
   Widget _updateProfileButton() {
     return TextButton(
@@ -93,7 +89,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       context: context,
       builder: (BuildContext bc) {
         return IconImagePicker(
-          iconUrlController: _iconUrlController,
+          initialImage: _image,
+          onImagePicked: (File? image) {
+            setState(() {
+              _image = image;
+            });
+          },
         );
       },
     );
@@ -109,16 +110,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               children: [
                 ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 80,
-                  ),
-                  child: ValueListenableBuilder<TextEditingValue>(
-                    valueListenable: _iconUrlController,
-                    builder: (context, value, child) {
-                      return ProfileIcon(iconImageUrl: value.text);
-                    },
-                  ),
-                ),
+                    constraints: const BoxConstraints(
+                      maxHeight: 80,
+                    ),
+                    child: ProfileIcon(
+                      iconImageUrl: widget.iconUrl,
+                      imageFile: _image,
+                    )),
                 const SizedBox(height: 16),
                 GestureDetector(
                     onTap: () {
