@@ -30,9 +30,7 @@ class PostListState extends State<PostListScreen> {
     } catch (e) {
       logError(e);
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      _isLoading = false;
     }
   }
 
