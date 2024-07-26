@@ -111,7 +111,7 @@ class MypageScreen extends StatelessWidget {
                 ),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: buildUserIcon(currentUser?.iconImageUrl),
+                  child: UserIcon(iconImageUrl: currentUser?.iconImageUrl),
                 ),
               ),
               const SizedBox(width: 24.0),
@@ -140,7 +140,12 @@ class MypageScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const EditProfileScreen()),
+                builder: (context) => EditProfileScreen(
+                  name: currentUser!.name,
+                  email: currentUser.email!,
+                  iconUrl: currentUser.iconImageUrl!,
+                ),
+              ),
             );
           },
         ),
