@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class IconImagePicker extends StatefulWidget {
-  final File? initialImage;
   final void Function(File?) onImagePicked;
 
   const IconImagePicker({
     super.key,
-    this.initialImage,
     required this.onImagePicked,
   });
 
@@ -22,7 +20,6 @@ class IconImagePickerState extends State<IconImagePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedFile = widget.initialImage;
   }
 
   Future<void> _pickImage(ImageSource source) async {

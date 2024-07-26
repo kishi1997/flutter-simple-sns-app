@@ -89,7 +89,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       context: context,
       builder: (BuildContext bc) {
         return IconImagePicker(
-          initialImage: _image,
           onImagePicked: (File? image) {
             setState(() {
               _image = image;
