@@ -66,9 +66,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
 
   Widget _postButton() {
     return TextButton(
-      onPressed: () async {
-        _isFormValid() ? _createPost : null;
-      },
+      onPressed: _isFormValid() ? _createPost : null,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
         decoration: BoxDecoration(
