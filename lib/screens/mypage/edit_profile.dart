@@ -24,7 +24,7 @@ class EditProfileScreen extends StatefulWidget {
 class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  File? _image;
+  File? _pickedImage;
   String? _nameErrorText;
   String? _emailErrorText;
 
@@ -91,7 +91,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         return IconImagePicker(
           onImagePicked: (File? image) {
             setState(() {
-              _image = image;
+              _pickedImage = image;
             });
           },
         );
@@ -114,7 +114,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     child: ProfileIcon(
                       iconImageUrl: widget.iconUrl,
-                      imageFile: _image,
+                      imageFile: _pickedImage,
                     )),
                 const SizedBox(height: 16),
                 GestureDetector(
