@@ -43,7 +43,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   void _addListeners() {
     void listener() {
       _validateField();
-      _checkFormChanged();
+      _isFormUpdated();
     }
 
     _nameController.addListener(listener);
@@ -64,7 +64,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
-  bool _checkFormChanged() {
+  bool _isFormUpdated() {
     return _nameController.text != widget.name ||
         _emailController.text != widget.email ||
         _pickedImage != null;
