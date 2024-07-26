@@ -1,5 +1,7 @@
 // import 'dart:io';
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:simple_sns_app/domain/account/account_entity.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
@@ -44,11 +46,11 @@ class AccountRepository {
     }
   }
 
-  Future<User> updateIconImage(String filePath) async {
+  Future<User> updateIconImage(File file) async {
     try {
-      final fileName = filePath.split('/').last;
+      final fileName = file.path.split('/').last;
       final formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(filePath, filename: fileName),
+        'file': await MultipartFile.fromFile(file.path, filename: fileName),
       });
       final res = await api.patch(
         '/account/icon_image',

@@ -1,5 +1,7 @@
 // import 'dart:io';
 
+import 'dart:io';
+
 import 'package:simple_sns_app/domain/account/account_entity.dart';
 import 'package:simple_sns_app/domain/account/account_repository.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
@@ -26,9 +28,8 @@ class AccountService {
     return updatedAccountData;
   }
 
-  Future<User> updateIconImage(String filePath) async {
-    final updatedAccountData =
-        await AccountRepository().updateIconImage(filePath);
+  Future<User> updateIconImage(File file) async {
+    final updatedAccountData = await AccountRepository().updateIconImage(file);
     userProvider.setUser(updatedAccountData);
     return updatedAccountData;
   }

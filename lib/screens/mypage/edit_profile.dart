@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
@@ -10,13 +12,14 @@ import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 class EditProfileScreen extends StatefulWidget {
   final String name;
   final String email;
-  final String iconImageUrl;
+  final String iconUrl;
 
   const EditProfileScreen(
       {super.key,
       required this.name,
       required this.email,
-      required this.iconImageUrl});
+      required this.iconUrl});
+
   @override
   EditProfileScreenState createState() => EditProfileScreenState();
 }
@@ -24,7 +27,7 @@ class EditProfileScreen extends StatefulWidget {
 class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _iconUrlController = TextEditingController();
+  File? _pickedImage;
   String? _nameErrorText;
   String? _emailErrorText;
   bool _isProcessing = false;
@@ -34,7 +37,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     _nameController.text = widget.name;
     _emailController.text = widget.email;
-    _iconUrlController.text = widget.iconImageUrl;
     _addListeners();
   }
 
@@ -46,14 +48,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
     _nameController.addListener(listener);
     _emailController.addListener(listener);
-    _iconUrlController.addListener(listener);
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
-    _iconUrlController.dispose();
     super.dispose();
   }
 
@@ -67,39 +67,28 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   bool _checkFormChanged() {
     return _nameController.text != widget.name ||
         _emailController.text != widget.email ||
-        _iconUrlController.text != widget.iconImageUrl;
+        _pickedImage != null;
   }
 
   bool _isFormValid() {
-    return _nameErrorText == null &&
-        _emailErrorText == null &&
-        _checkFormChanged();
+    return CustomValidators.validateUsername(_nameController.text) == null &&
+        CustomValidators.validateEmail(_emailController.text) == null;
   }
 
   bool _isButtonEnabled() {
     return _isFormValid() && !_isProcessing;
   }
 
-  void _showPicker(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) => IconImagePicker(
-        iconUrlController: _iconUrlController,
-      ),
-    );
-  }
-
   Future<void> _updateProfile() async {
     final newName = _nameController.text;
     final newEmail = _emailController.text;
-    final newIconUrl = _iconUrlController.text;
 
     if (newName != widget.name || newEmail != widget.email) {
       await AccountService().updateProfile(newName, newEmail);
     }
 
-    if (newIconUrl != widget.iconImageUrl) {
-      await AccountService().updateIconImage(newIconUrl);
+    if (_pickedImage != null) {
+      await AccountService().updateIconImage(_pickedImage!);
     }
   }
 
@@ -143,6 +132,21 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  void _showPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return IconImagePicker(
+          onImagePicked: (File? image) {
+            setState(() {
+              _pickedImage = image;
+            });
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,16 +158,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               children: [
                 ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 80,
-                  ),
-                  child: ValueListenableBuilder<TextEditingValue>(
-                    valueListenable: _iconUrlController,
-                    builder: (context, value, child) {
-                      return ProfileIcon(iconImageUrl: value.text);
-                    },
-                  ),
-                ),
+                    constraints: const BoxConstraints(
+                      maxHeight: 80,
+                    ),
+                    child: ProfileIcon(
+                      iconImageUrl: widget.iconUrl,
+                      imageFile: _pickedImage,
+                    )),
                 const SizedBox(height: 16),
                 GestureDetector(
                     onTap: () {
