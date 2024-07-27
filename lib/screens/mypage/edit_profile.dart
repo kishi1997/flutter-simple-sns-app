@@ -76,7 +76,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   bool _isButtonEnabled() {
-    return _isFormValid() && !_isProcessing;
+    return _isFormValid() && _isFormUpdated() && !_isProcessing;
   }
 
   Future<void> _updateProfile() async {
@@ -93,7 +93,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _handleUpdateProfile(BuildContext context) async {
-    _isProcessing = true;
+    setState(() {
+      _isProcessing = true;
+    });
     try {
       await _updateProfile();
       if (!context.mounted) return;
@@ -103,13 +105,15 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       logError(e);
       showSnackBar(context, "プロフィール変更中に一時的なエラーが発生しました、お手数ですが再度お試しください");
     } finally {
-      _isProcessing = false;
+      setState(() {
+        _isProcessing = false;
+      });
     }
   }
 
   Widget _updateProfileButton(BuildContext context) {
     return TextButton(
-      onPressed: () async {
+      onPressed: () {
         _isButtonEnabled() ? _handleUpdateProfile(context) : null;
       },
       child: Container(
