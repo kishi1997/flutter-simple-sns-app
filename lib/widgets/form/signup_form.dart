@@ -17,6 +17,7 @@ class SignupFormState extends State<SignupForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isProcessing = false;
 
   String? _nameErrorText;
   String? _emailErrorText;
@@ -58,7 +59,14 @@ class SignupFormState extends State<SignupForm> {
         CustomValidators.validatePassword(_passwordController.text) == null;
   }
 
+  bool _isButtonEnabled() {
+    return _isFormValid() && !_isProcessing;
+  }
+
   Future<void> _signup() async {
+    setState(() {
+      _isProcessing = true;
+    });
     final name = _nameController.text;
     final email = _emailController.text;
     final password = _passwordController.text;
@@ -74,11 +82,16 @@ class SignupFormState extends State<SignupForm> {
     } catch (e) {
       logError(e);
       showSnackBar(context, "アカウントの登録に失敗しました");
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    logger.d(_isButtonEnabled());
     return Form(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -112,9 +125,9 @@ class SignupFormState extends State<SignupForm> {
         const SizedBox(height: 32),
         AppButton(
           text: 'はじめる',
-          onPressed: _isFormValid() ? _signup : null,
+          onPressed: _isButtonEnabled() ? _signup : null,
           backgroundColor:
-              _isFormValid() ? Theme.of(context).primaryColor : Colors.grey,
+              _isButtonEnabled() ? Theme.of(context).primaryColor : Colors.grey,
           textColor: Colors.white,
         ),
       ],
