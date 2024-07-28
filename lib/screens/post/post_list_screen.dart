@@ -5,7 +5,7 @@ import 'package:simple_sns_app/domain/post/post_service.dart';
 import 'package:simple_sns_app/screens/post/post_creation_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/pagination_utils.dart';
-import 'package:simple_sns_app/widgets/post/infinite_post_list_view.dart';
+import 'package:simple_sns_app/widgets/post/infinity_post_list_view.dart';
 
 class PostListScreen extends StatefulWidget {
   const PostListScreen({super.key});
