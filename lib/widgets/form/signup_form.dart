@@ -91,7 +91,6 @@ class SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d(_isButtonEnabled());
     return Form(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
