@@ -1,5 +1,6 @@
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_repository.dart';
+import 'package:simple_sns_app/utils/pagination_utils.dart';
 
 class PostService {
   Future<Post> createPost(String content) async {
@@ -7,8 +8,8 @@ class PostService {
     return post;
   }
 
-  Future<List<Post>> getPosts() async {
-    final posts = await PostRepository().getPosts();
+  Future<List<Post>> getPosts([Pagination? pagination]) async {
+    final posts = await PostRepository().getPosts(pagination);
     return posts;
   }
 

@@ -1,5 +1,6 @@
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/utils/api.dart';
+import 'package:simple_sns_app/utils/pagination_utils.dart';
 
 class PostRepository {
   Future<Post> createPost(String content) async {
@@ -18,9 +19,13 @@ class PostRepository {
     }
   }
 
-  Future<List<Post>> getPosts() async {
+  Future<List<Post>> getPosts([Pagination? pagination]) async {
     try {
-      final res = await api.get('/posts');
+      final queryParameters = buildPagiationParameters(pagination);
+      final res = await api.get(
+        '/posts',
+        queryParameters: queryParameters,
+      );
       final posts = (res.data['posts'] as List<dynamic>)
           .map((post) => Post.fromJson(post as Map<String, dynamic>))
           .toList();
