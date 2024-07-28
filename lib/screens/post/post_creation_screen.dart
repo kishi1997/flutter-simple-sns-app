@@ -17,6 +17,7 @@ class PostCreationScreenState extends State<PostCreationScreen> {
   int _charCount = 0;
   static const int _MAX_POST_LENGTH = 140;
   String? _postFormErrorText;
+  bool _isProcessing = false;
 
   @override
   void initState() {
@@ -39,6 +40,10 @@ class PostCreationScreenState extends State<PostCreationScreen> {
         null;
   }
 
+  bool _isButtonEnabled() {
+    return _isFormValid() && !_isProcessing;
+  }
+
   void _updateCharCount() {
     setState(() {
       _charCount = _postFormController.text.length;
@@ -52,27 +57,28 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
-  Future<void> _createPost(String content) async {
+  Future<void> _createPost() async {
+    _isProcessing = true;
     try {
-      final newPost = await PostService().createPost(content);
+      final newPost = await PostService().createPost(_postFormController.text);
       if (!mounted) return;
       showSnackBar(context, '投稿が完了しました！');
       Navigator.of(context).pop(newPost);
     } catch (e) {
       logError(e);
       showSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
+    } finally {
+      _isProcessing = false;
     }
   }
 
   Widget _postButton() {
     return TextButton(
-      onPressed: () async {
-        _isFormValid() ? _createPost(_postFormController.text) : null;
-      },
+      onPressed: _isButtonEnabled() ? _createPost : null,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
         decoration: BoxDecoration(
-          color: _isFormValid()
+          color: _isButtonEnabled()
               ? Colors.white
               : const Color.fromARGB(108, 255, 255, 255),
           borderRadius: BorderRadius.circular(20.0),

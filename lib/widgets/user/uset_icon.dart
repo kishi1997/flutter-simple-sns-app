@@ -11,12 +11,12 @@ class UserIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (iconImageUrl != null) {
-      return const CircleAvatar(
-        child: Icon(Icons.person),
+      return CircleAvatar(
+        backgroundImage: NetworkImage(iconImageUrl!),
       );
     }
-    return CircleAvatar(
-      backgroundImage: NetworkImage(iconImageUrl!),
+    return const CircleAvatar(
+      child: Icon(Icons.person),
     );
   }
 }
