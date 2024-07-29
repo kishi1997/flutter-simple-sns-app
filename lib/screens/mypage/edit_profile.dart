@@ -87,48 +87,49 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppHeader(title: 'プロフィール編集', actions: [_updateProfileButton()]),
-        body: Padding(
-            padding: const EdgeInsets.only(
-                top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
-            child: Column(
-              children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 70,
-                  ),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: UserIcon(iconImageUrl: _iconUrlController.text),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                GestureDetector(
-                    // onTap: 画像変更処理,
-                    child: const Text(
-                  'アイコン画像を変更',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
-                )),
-                const SizedBox(height: 32),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'アカウント名',
-                    errorText: _nameErrorText,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'メールアドレス',
-                    errorText: _emailErrorText,
-                  ),
-                ),
-              ],
-            )));
+        body: Center(
+            child: SingleChildScrollView(
+                padding: const EdgeInsets.only(
+                    top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
+                child: Column(
+                  children: [
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight: 70,
+                      ),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: UserIcon(iconImageUrl: _iconUrlController.text),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    GestureDetector(
+                        // onTap: 画像変更処理,
+                        child: const Text(
+                      'アイコン画像を変更',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    )),
+                    const SizedBox(height: 32),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: 'アカウント名',
+                        errorText: _nameErrorText,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: 'メールアドレス',
+                        errorText: _emailErrorText,
+                      ),
+                    ),
+                  ],
+                ))));
   }
 }
