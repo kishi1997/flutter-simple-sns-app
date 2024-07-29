@@ -56,7 +56,6 @@ class PostCreationScreenState extends State<PostCreationScreen> {
           CustomValidators.validatePostCreationForm(_postFormController.text);
     });
   }
-
   Future<void> _createPost() async {
     _isProcessing = true;
     try {

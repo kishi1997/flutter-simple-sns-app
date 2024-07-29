@@ -5,7 +5,7 @@ import 'package:simple_sns_app/domain/message/message_service.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/pagination_utils.dart';
 import 'package:simple_sns_app/widgets/message/message_sender.dart';
-import 'package:simple_sns_app/widgets/room/message_list.dart';
+import 'package:simple_sns_app/widgets/message/message_list.dart';
 
 class RoomScreen extends StatefulWidget {
   final String roomId;
