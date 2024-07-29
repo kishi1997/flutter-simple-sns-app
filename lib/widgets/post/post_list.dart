@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/widgets/post/post_tile.dart';
 
-class InfinityPostListView extends StatefulWidget {
+class PostList extends StatefulWidget {
   final List<Post> posts;
   final Future<void> Function(int cursor) fetchPosts;
   final bool hasMoreData;
 
-  const InfinityPostListView({
+  const PostList({
     super.key,
     required this.posts,
     required this.fetchPosts,
@@ -15,10 +15,10 @@ class InfinityPostListView extends StatefulWidget {
   });
 
   @override
-  State<InfinityPostListView> createState() => _InfinityListViewState();
+  PostListState createState() => PostListState();
 }
 
-class _InfinityListViewState extends State<InfinityPostListView> {
+class PostListState extends State<PostList> {
   late ScrollController _scrollController;
   @override
   void initState() {

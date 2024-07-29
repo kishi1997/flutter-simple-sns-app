@@ -5,7 +5,7 @@ import 'package:simple_sns_app/domain/post/post_service.dart';
 import 'package:simple_sns_app/screens/post/post_creation_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/pagination_utils.dart';
-import 'package:simple_sns_app/widgets/post/infinity_post_list_view.dart';
+import 'package:simple_sns_app/widgets/post/post_list.dart';
 
 class PostListScreen extends StatefulWidget {
   const PostListScreen({super.key});
@@ -22,6 +22,7 @@ class PostListState extends State<PostListScreen> {
   Future<void> fetchPosts([int? cursor]) async {
     if (_isLoading || !_hasMoreData) return;
     _isLoading = true;
+
     try {
       final pagination = Pagination(size: 50, cursor: cursor);
       final newPosts = await PostService().getPosts(pagination);
@@ -62,7 +63,7 @@ class PostListState extends State<PostListScreen> {
         if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
-        return InfinityPostListView(
+        return PostList(
             posts: _posts,
             fetchPosts: (cursor) => fetchPosts(cursor),
             hasMoreData: _hasMoreData);
