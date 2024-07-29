@@ -3,8 +3,9 @@ import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/domain/message/message_entity.dart';
 import 'package:simple_sns_app/domain/message/message_service.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
-import 'package:simple_sns_app/widgets/message/message_item.dart';
+import 'package:simple_sns_app/utils/pagination_utils.dart';
 import 'package:simple_sns_app/widgets/message/message_sender.dart';
+import 'package:simple_sns_app/widgets/room/message_list.dart';
 
 class RoomScreen extends StatefulWidget {
   final String roomId;
@@ -17,23 +18,40 @@ class RoomScreen extends StatefulWidget {
 
 class RoomScreenState extends State<RoomScreen> {
   List<Message> _messages = [];
+  late Future<void> _fetchMessagesFuture;
   bool _isLoading = false;
+  bool _hasMoreData = true;
 
-  Future<void> fetchMessages() async {
-    setState(() {
-      _isLoading = true;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _fetchMessagesFuture = fetchMessages();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> fetchMessages([int? cursor]) async {
+    if (_isLoading || !_hasMoreData) return;
+    _isLoading = true;
     try {
-      final messages = await MessageService().getMessages(widget.roomId);
+      final pagination = Pagination(size: 50, cursor: cursor);
+      final newMessages =
+          await MessageService().getMessages(widget.roomId, pagination);
+      _hasMoreData = newMessages.length == 50;
       setState(() {
-        _messages = messages;
+        if (_messages.isEmpty) {
+          _messages = newMessages;
+        } else {
+          _messages.addAll(newMessages);
+        }
       });
     } catch (e) {
       logError(e);
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      _isLoading = false;
     }
   }
 
@@ -43,26 +61,20 @@ class RoomScreenState extends State<RoomScreen> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchMessages();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Widget _buildMessageListView() {
-    if (_isLoading) return const Center(child: CircularProgressIndicator());
-    return ListView.builder(
-      reverse: true,
-      itemCount: _messages.length,
-      itemBuilder: (BuildContext context, int index) {
-        final message = _messages[index];
-        return MessageItem(
-          message: message,
+    return FutureBuilder(
+      future: _fetchMessagesFuture,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+        return MessageList(
+          messages: _messages,
+          fetchMessages: (cursor) => fetchMessages(cursor),
+          hasMoreData: _hasMoreData,
         );
       },
     );
