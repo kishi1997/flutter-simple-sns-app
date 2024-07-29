@@ -9,35 +9,36 @@ class SigninScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(title: 'サインイン'),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SigninForm(),
-            const SizedBox(height: 16),
-            RichText(
-              text: TextSpan(
-                text: 'アカウントをお持ちでない方はこちら',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  decoration: TextDecoration.underline,
+        appBar: const AppHeader(title: 'サインイン'),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SigninForm(),
+                const SizedBox(height: 16),
+                RichText(
+                  text: TextSpan(
+                    text: 'アカウントをお持ちでない方はこちら',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUpScreen()),
+                        );
+                      },
+                  ),
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpScreen()),
-                    );
-                  },
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

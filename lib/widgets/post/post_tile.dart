@@ -58,11 +58,12 @@ class PostTileState extends State<PostTile> {
           children: [
             Row(
               children: [
-                Text(
-                    postAuthor?.name != null
-                        ? postAuthor!.name
-                        : 'Unknown User',
-                    style: const TextStyle(fontSize: 12)),
+                Expanded(
+                    child: Text(
+                        postAuthor?.name != null
+                            ? postAuthor!.name
+                            : 'Unknown User',
+                        style: const TextStyle(fontSize: 12))),
                 const SizedBox(width: 8.0),
                 Text(
                   formatDate(widget.post.createdAt),
@@ -115,6 +116,7 @@ class PostTileState extends State<PostTile> {
             child: const Icon(Icons.more_vert),
           ),
         ),
+        isThreeLine: true,
       ),
       if (!currentUserIsAuthor)
         Container(
