@@ -8,7 +8,6 @@ import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class SigninForm extends StatefulWidget {
   const SigninForm({super.key});
-
   @override
   SigninFormState createState() => SigninFormState();
 }
@@ -16,10 +15,10 @@ class SigninForm extends StatefulWidget {
 class SigninFormState extends State<SigninForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isProcessing = false;
 
   String? _emailErrorText;
   String? _passwordErrorText;
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +33,7 @@ class SigninFormState extends State<SigninForm> {
     super.dispose();
   }
 
-  bool get _isFormValid {
+  bool _isFormValid() {
     return CustomValidators.validateEmail(_emailController.text) == null &&
         CustomValidators.validatePassword(_passwordController.text) == null;
   }
@@ -50,7 +49,14 @@ class SigninFormState extends State<SigninForm> {
     });
   }
 
+  bool _isButtonEnabled() {
+    return _isFormValid() && !_isProcessing;
+  }
+
   Future<void> _signIn() async {
+    setState(() {
+      _isProcessing = true;
+    });
     final email = _emailController.text;
     final password = _passwordController.text;
     try {
@@ -64,6 +70,10 @@ class SigninFormState extends State<SigninForm> {
     } catch (e) {
       logError(e);
       showSnackBar(context, "サインインに失敗しました");
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
     }
   }
 
@@ -93,13 +103,9 @@ class SigninFormState extends State<SigninForm> {
         const SizedBox(height: 32),
         AppButton(
           text: 'ログインする',
-          onPressed: _isFormValid
-              ? () async {
-                  await _signIn();
-                }
-              : null,
+          onPressed: _isButtonEnabled() ? _signIn : null,
           backgroundColor:
-              _isFormValid ? Theme.of(context).primaryColor : Colors.grey,
+              _isButtonEnabled() ? Theme.of(context).primaryColor : Colors.grey,
           textColor: Colors.white,
         ),
       ],

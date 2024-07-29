@@ -14,7 +14,12 @@ class PostListScreen extends StatefulWidget {
 
 class PostListState extends State<PostListScreen> {
   List<Post> _posts = [];
+  bool _isLoading = false;
+
   Future<void> fetchPosts() async {
+    if (_isLoading) return;
+
+    _isLoading = true;
     try {
       final posts = await PostService().getPosts();
       setState(() {
@@ -22,6 +27,8 @@ class PostListState extends State<PostListScreen> {
       });
     } catch (e) {
       logError(e);
+    } finally {
+      _isLoading = false;
     }
   }
 
@@ -42,32 +49,37 @@ class PostListState extends State<PostListScreen> {
     return Scaffold(
       appBar: const AppHeader(title: '投稿一覧'),
       body: Padding(
-        padding: const EdgeInsets.only(
-          top: 0,
-          right: 24.0,
-          bottom: 24.0,
-          left: 24.0,
-        ),
-        child: Center(
-          child: ListView.builder(
-            itemCount: _posts.length,
-            itemBuilder: (BuildContext context, int index) {
-              final post = _posts[index];
-              return PostTile(
-                post: post,
-                onDelete: _removePost,
-              );
-            },
+          padding: const EdgeInsets.only(
+            top: 0,
+            right: 24.0,
+            bottom: 24.0,
+            left: 24.0,
           ),
-        ),
-      ),
+          child: RefreshIndicator(
+            color: Theme.of(context).primaryColor,
+            onRefresh: () async {
+              await fetchPosts();
+            },
+            child: Center(
+              child: ListView.builder(
+                itemCount: _posts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final post = _posts[index];
+                  return PostTile(
+                    post: post,
+                    onDelete: _removePost,
+                  );
+                },
+              ),
+            ),
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PostCreationScreen()),
           );
-          fetchPosts();
+          await fetchPosts();
         },
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
