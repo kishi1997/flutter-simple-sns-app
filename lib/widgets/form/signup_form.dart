@@ -3,6 +3,7 @@ import 'package:simple_sns_app/components/button/app_button.dart';
 import 'package:simple_sns_app/domain/account/account_service.dart';
 import 'package:simple_sns_app/screens/home_screen.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
+import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
 
 class SignupForm extends StatefulWidget {
@@ -20,11 +21,6 @@ class SignupFormState extends State<SignupForm> {
   String? _nameErrorText;
   String? _emailErrorText;
   String? _passwordErrorText;
-
-  bool _isValidName = false;
-  bool _isValidEmail = false;
-  bool _isValidPassword = false;
-  bool _isFormValid = false;
 
   @override
   void initState() {
@@ -47,29 +43,19 @@ class SignupFormState extends State<SignupForm> {
       if (field == 'name') {
         _nameErrorText =
             CustomValidators.validateUsername(_nameController.text);
-        _isValidName = isFormFieldValid(_nameErrorText, _nameController);
       } else if (field == 'email') {
         _emailErrorText = CustomValidators.validateEmail(_emailController.text);
-        _isValidEmail = isFormFieldValid(_emailErrorText, _emailController);
       } else if (field == 'password') {
         _passwordErrorText =
             CustomValidators.validatePassword(_passwordController.text);
-        _isValidPassword =
-            isFormFieldValid(_passwordErrorText, _passwordController);
       }
     });
-    _isFormValid = _isValidName && _isValidEmail && _isValidPassword;
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
+  bool _isFormValid() {
+    return CustomValidators.validateUsername(_nameController.text) == null &&
+        CustomValidators.validateEmail(_emailController.text) == null &&
+        CustomValidators.validatePassword(_passwordController.text) == null;
   }
 
   Future<void> _signup() async {
@@ -80,14 +66,14 @@ class SignupFormState extends State<SignupForm> {
     try {
       await AccountService().signup(name, email, password);
       if (!mounted) return;
-      _showSnackBar('アカウントが登録されました');
+      showSnackBar(context, 'アカウントが登録されました');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
       logError(e);
-      _showSnackBar("アカウントの登録に失敗しました");
+      showSnackBar(context, "アカウントの登録に失敗しました");
     }
   }
 
@@ -126,13 +112,9 @@ class SignupFormState extends State<SignupForm> {
         const SizedBox(height: 32),
         AppButton(
           text: 'はじめる',
-          onPressed: _isFormValid
-              ? () {
-                  _signup();
-                }
-              : null,
+          onPressed: _isFormValid() ? _signup : null,
           backgroundColor:
-              _isFormValid ? Theme.of(context).primaryColor : Colors.grey,
+              _isFormValid() ? Theme.of(context).primaryColor : Colors.grey,
           textColor: Colors.white,
         ),
       ],

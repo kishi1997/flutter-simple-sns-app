@@ -34,7 +34,7 @@ class SigninFormState extends State<SigninForm> {
     super.dispose();
   }
 
-  bool get _isFormValid {
+  bool _isFormValid() {
     return CustomValidators.validateEmail(_emailController.text) == null &&
         CustomValidators.validatePassword(_passwordController.text) == null;
   }
@@ -93,13 +93,9 @@ class SigninFormState extends State<SigninForm> {
         const SizedBox(height: 32),
         AppButton(
           text: 'ログインする',
-          onPressed: _isFormValid
-              ? () async {
-                  await _signIn();
-                }
-              : null,
+          onPressed: _isFormValid() ? _signIn : null,
           backgroundColor:
-              _isFormValid ? Theme.of(context).primaryColor : Colors.grey,
+              _isFormValid() ? Theme.of(context).primaryColor : Colors.grey,
           textColor: Colors.white,
         ),
       ],
