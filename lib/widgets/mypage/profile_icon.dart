@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/utils/url_utils.dart';
 
 class ProfileIcon extends StatelessWidget {
-  final String iconImageUrl;
+  final String? iconImageUrl;
   final File? imageFile;
 
   const ProfileIcon({
     super.key,
-    required this.iconImageUrl,
+    this.iconImageUrl,
     this.imageFile,
   });
 
@@ -26,7 +27,7 @@ class ProfileIcon extends StatelessWidget {
       );
     }
 
-    if (iconImageUrl.isEmpty) {
+    if (iconImageUrl == null) {
       return const ClipOval(
         child: Icon(
           Icons.person,
@@ -39,7 +40,10 @@ class ProfileIcon extends StatelessWidget {
       child: SizedBox(
         width: 80,
         height: 80,
-        child: FittedBox(fit: BoxFit.cover, child: Image.network(iconImageUrl)),
+        child: FittedBox(
+            fit: BoxFit.cover,
+            child: Image.network(
+                replaceLocalhostWithNetworkBaseUrl(iconImageUrl!))),
       ),
     );
   }

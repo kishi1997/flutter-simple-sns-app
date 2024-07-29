@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_service.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
+import 'package:simple_sns_app/utils/url_utils.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
 import 'package:simple_sns_app/utils/snack_bar_utils.dart';
@@ -47,7 +48,8 @@ class PostTileState extends State<PostTile> {
       ListTile(
         leading: CircleAvatar(
           backgroundImage: postAuthor?.iconImageUrl != null
-              ? NetworkImage(postAuthor!.iconImageUrl!)
+              ? NetworkImage(
+                  replaceLocalhostWithNetworkBaseUrl(postAuthor!.iconImageUrl!))
               : null,
           child: postAuthor?.iconImageUrl == null
               ? const Icon(Icons.person)
