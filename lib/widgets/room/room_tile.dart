@@ -58,30 +58,31 @@ class RoomTileState extends State<RoomTile> {
         child: Column(children: [
           const SizedBox(height: 24),
           ListTile(
-              leading: _buildAvatar(chatPartner.user?.iconImageUrl),
-              title: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        chatPartner.user?.name != null
-                            ? chatPartner.user!.name
-                            : 'Unknown User',
-                      ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        formatLatestMessageRelativeTime(
-                            latestMessage.createdAt),
-                        style:
-                            const TextStyle(fontSize: 10, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              subtitle: Text(latestMessage.content,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey))),
+            leading: _buildAvatar(chatPartner.user?.iconImageUrl),
+            title: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: Text(
+                      chatPartner.user?.name != null
+                          ? chatPartner.user!.name
+                          : 'Unknown User',
+                    )),
+                    const SizedBox(width: 8.0),
+                    Text(
+                      formatLatestMessageRelativeTime(latestMessage.createdAt),
+                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            subtitle: Text(latestMessage.content,
+                style: const TextStyle(fontSize: 14, color: Colors.grey)),
+            isThreeLine: true,
+          ),
         ]));
   }
 }
