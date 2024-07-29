@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/utils/validation_utils.dart';
-import 'package:simple_sns_app/widgets/user/uset_icon.dart';
+import 'package:simple_sns_app/widgets/mypage/icon_image_picker.dart';
+import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String name;
@@ -21,8 +24,7 @@ class EditProfileScreen extends StatefulWidget {
 class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _iconUrlController = TextEditingController();
-
+  File? _pickedImage;
   String? _nameErrorText;
   String? _emailErrorText;
 
@@ -31,7 +33,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     _nameController.text = widget.name;
     _emailController.text = widget.email;
-    _iconUrlController.text = widget.iconUrl;
     _nameController.addListener(() => _validateField('name'));
     _emailController.addListener(() => _validateField('email'));
   }
@@ -48,8 +49,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         CustomValidators.validateEmail(_emailController.text) == null;
   }
 
-  // 仮のプロフィール変更処理
-  void _updateProfile() {}
+  // 仮のプロフィール変更の非同期処理
+  Future<void> _updateProfile() async {}
 
   Widget _updateProfileButton() {
     return TextButton(
@@ -83,6 +84,21 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
+  void _showPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return IconImagePicker(
+          onImagePicked: (File? image) {
+            setState(() {
+              _pickedImage = image;
+            });
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,23 +109,24 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               children: [
                 ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 70,
-                  ),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: UserIcon(iconImageUrl: _iconUrlController.text),
-                  ),
-                ),
+                    constraints: const BoxConstraints(
+                      maxHeight: 80,
+                    ),
+                    child: ProfileIcon(
+                      iconImageUrl: widget.iconUrl,
+                      imageFile: _pickedImage,
+                    )),
                 const SizedBox(height: 16),
                 GestureDetector(
-                    // onTap: 画像変更処理,
+                    onTap: () {
+                      _showPicker(context);
+                    },
                     child: const Text(
-                  'アイコン画像を変更',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
-                )),
+                      'アイコン画像を変更',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    )),
                 const SizedBox(height: 32),
                 TextFormField(
                   controller: _nameController,
