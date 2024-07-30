@@ -6,6 +6,7 @@ import 'package:simple_sns_app/domain/room_user/room_user_entity.dart';
 import 'package:simple_sns_app/screens/room/room_screen.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
 import 'package:simple_sns_app/utils/provider_utils.dart';
+import 'package:simple_sns_app/widgets/user/uset_icon.dart';
 
 class RoomTile extends StatefulWidget {
   final Room room;
@@ -29,17 +30,6 @@ class RoomTileState extends State<RoomTile> {
     return room.messages.first;
   }
 
-  Widget _buildAvatar(String? iconImageUrl) {
-    if (iconImageUrl == null) {
-      return const CircleAvatar(
-        child: Icon(Icons.person),
-      );
-    }
-    return CircleAvatar(
-      backgroundImage: NetworkImage(iconImageUrl),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<UserProvider>(context).user;
@@ -58,7 +48,7 @@ class RoomTileState extends State<RoomTile> {
         child: Column(children: [
           const SizedBox(height: 24),
           ListTile(
-            leading: _buildAvatar(chatPartner.user?.iconImageUrl),
+            leading: UserIcon(iconImageUrl: chatPartner.user?.iconImageUrl),
             title: Column(
               children: [
                 Row(

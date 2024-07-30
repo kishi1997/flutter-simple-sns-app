@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/user/user_entity.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
+import 'package:simple_sns_app/utils/url_utils.dart';
 
 class PostRepliesContent extends StatelessWidget {
   final Post post;
@@ -15,7 +16,8 @@ class PostRepliesContent extends StatelessWidget {
       decoration: BoxDecoration(
         image: postAuthor?.iconImageUrl != null
             ? DecorationImage(
-                image: NetworkImage(postAuthor!.iconImageUrl!),
+                image: NetworkImage(replaceLocalhostWithNetworkBaseUrl(
+                    postAuthor!.iconImageUrl!)),
                 fit: BoxFit.cover,
               )
             : null,

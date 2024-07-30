@@ -12,13 +12,10 @@ import 'package:simple_sns_app/widgets/mypage/profile_icon.dart';
 class EditProfileScreen extends StatefulWidget {
   final String name;
   final String email;
-  final String iconUrl;
+  final String? iconUrl;
 
   const EditProfileScreen(
-      {super.key,
-      required this.name,
-      required this.email,
-      required this.iconUrl});
+      {super.key, required this.name, required this.email, this.iconUrl});
 
   @override
   EditProfileScreenState createState() => EditProfileScreenState();

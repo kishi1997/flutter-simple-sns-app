@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_sns_app/utils/url_utils.dart';
 
 class UserIcon extends StatelessWidget {
   final String? iconImageUrl;
@@ -12,7 +13,8 @@ class UserIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     if (iconImageUrl != null) {
       return CircleAvatar(
-        backgroundImage: NetworkImage(iconImageUrl!),
+        backgroundImage:
+            NetworkImage(replaceLocalhostWithNetworkBaseUrl(iconImageUrl!)),
       );
     }
     return const CircleAvatar(
