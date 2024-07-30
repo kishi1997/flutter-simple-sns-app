@@ -64,11 +64,12 @@ class RoomTileState extends State<RoomTile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    Expanded(
+                        child: Text(
                       chatPartner.user?.name != null
                           ? chatPartner.user!.name
                           : 'Unknown User',
-                    ),
+                    )),
                     const SizedBox(width: 8.0),
                     Text(
                       formatLatestMessageRelativeTime(latestMessage.createdAt),
@@ -80,6 +81,7 @@ class RoomTileState extends State<RoomTile> {
             ),
             subtitle: Text(latestMessage.content,
                 style: const TextStyle(fontSize: 14, color: Colors.grey)),
+            isThreeLine: true,
           ),
         ]));
   }
