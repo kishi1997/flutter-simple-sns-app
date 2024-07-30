@@ -152,7 +152,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
         appBar: AppHeader(
             title: 'プロフィール編集', actions: [_updateProfileButton(context)]),
-        body: Padding(
+        body: SingleChildScrollView(
             padding: const EdgeInsets.only(
                 top: 72.0, left: 24.0, right: 24.0, bottom: 24.0),
             child: Column(

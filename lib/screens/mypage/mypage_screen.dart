@@ -122,7 +122,9 @@ class MypageScreen extends StatelessWidget {
                   Text(
                     currentUser?.name ?? "",
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     currentUser?.email ?? "",
