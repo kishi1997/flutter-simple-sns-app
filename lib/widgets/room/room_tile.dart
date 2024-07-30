@@ -81,7 +81,6 @@ class RoomTileState extends State<RoomTile> {
             ),
             subtitle: Text(latestMessage.content,
                 style: const TextStyle(fontSize: 14, color: Colors.grey)),
-            isThreeLine: true,
           ),
         ]));
   }
