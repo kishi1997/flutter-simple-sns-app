@@ -54,19 +54,20 @@ class PostRepliesContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                           width: 20.0,
                           height: 20.0,
                           child: _buildPostAuthorIcon(postAuthor)),
                       const SizedBox(width: 8.0),
-                      Text(
+                      Expanded(
+                          child: Text(
                         postAuthor!.name,
                         style: const TextStyle(fontSize: 12),
-                      ),
+                      )),
                       const SizedBox(width: 8.0),
                       Text(
                         formatMonthDay(post.createdAt),

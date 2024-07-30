@@ -115,7 +115,8 @@ class MypageScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 24.0),
-              Column(
+              Expanded(
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
@@ -131,7 +132,7 @@ class MypageScreen extends StatelessWidget {
                     style: const TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 ],
-              ),
+              )),
             ],
           ),
         ),
