@@ -56,16 +56,17 @@ class PostCreationScreenState extends State<PostCreationScreen> {
           CustomValidators.validatePostCreationForm(_postFormController.text);
     });
   }
+
   Future<void> _createPost() async {
     _isProcessing = true;
     try {
       final newPost = await PostService().createPost(_postFormController.text);
       if (!mounted) return;
-      showSnackBar(context, '投稿が完了しました！');
+      showSuccessSnackBar(context, '投稿が完了しました！');
       Navigator.of(context).pop(newPost);
     } catch (e) {
       logError(e);
-      showSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
+      showFailureSnackBar(context, '一時的なエラーが発生しました。再度お試しください。');
     } finally {
       _isProcessing = false;
     }

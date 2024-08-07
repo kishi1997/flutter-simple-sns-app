@@ -29,11 +29,11 @@ class PostTileState extends State<PostTile> {
       await PostService().delete(postId);
       if (!mounted) return;
       widget.onDelete(postId);
-      showSnackBar(context, '投稿を削除しました');
+      showSuccessSnackBar(context, '投稿を削除しました');
     } catch (e) {
       logger.e(e);
       if (mounted) {
-        showSnackBar(context, '投稿の削除に失敗しました');
+        showFailureSnackBar(context, '投稿の削除に失敗しました');
       }
     }
   }

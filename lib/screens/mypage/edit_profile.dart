@@ -96,11 +96,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     try {
       await _updateProfile();
       if (!context.mounted) return;
-      showSnackBar(context, "プロフィールを変更しました");
+      showSuccessSnackBar(context, "プロフィールを変更しました");
       Navigator.of(context).pop();
     } catch (e) {
       logError(e);
-      showSnackBar(context, "プロフィール変更中に一時的なエラーが発生しました、お手数ですが再度お試しください");
+      showSuccessSnackBar(context, "プロフィール変更中に一時的なエラーが発生しました、お手数ですが再度お試しください");
     } finally {
       setState(() {
         _isProcessing = false;

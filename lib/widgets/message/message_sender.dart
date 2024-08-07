@@ -45,7 +45,7 @@ class MessageSenderState extends State<MessageSender> {
     } catch (e) {
       logger.e(e);
       if (mounted) {
-        showSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
+        showSuccessSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
       }
     } finally {
       setState(() {
