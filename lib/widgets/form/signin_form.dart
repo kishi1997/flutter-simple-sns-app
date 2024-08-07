@@ -62,14 +62,14 @@ class SigninFormState extends State<SigninForm> {
     try {
       await AuthService().signin(email, password);
       if (!mounted) return;
-      showSnackBar(context, 'サインインに成功しました！');
+      showSuccessSnackBar(context, 'サインインに成功しました！');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
       logError(e);
-      showSnackBar(context, "サインインに失敗しました");
+      showFailureSnackBar(context, "サインインに失敗しました");
     } finally {
       setState(() {
         _isProcessing = false;

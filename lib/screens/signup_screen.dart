@@ -4,26 +4,20 @@ import 'package:simple_sns_app/components/header/app_header.dart';
 import 'package:simple_sns_app/screens/signin_screen.dart';
 import 'package:simple_sns_app/utils/link_utils.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
+import 'package:simple_sns_app/utils/snack_bar_utils.dart';
 import 'package:simple_sns_app/widgets/form/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    void showSnackBar(String message) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
-      );
-    }
-
     Future<void> moveToLink(String url) async {
       try {
         await launchURL(url);
       } catch (e) {
         logError(e);
-        showSnackBar('エラーが発生しました。しばらく経ってからもう一度お試しください。');
+        if (!context.mounted) return;
+        showFailureSnackBar(context, 'エラーが発生しました。しばらく経ってからもう一度お試しください。');
       }
     }
 

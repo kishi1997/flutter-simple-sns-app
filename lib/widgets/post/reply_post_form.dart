@@ -54,11 +54,11 @@ class ReplyPostFormState extends State<ReplyPostForm> {
     try {
       await MessageService().createMessageVisPost(content, postId);
       if (!mounted) return;
-      showSnackBar(context, 'メッセージが正常に送信されました。');
+      showSuccessSnackBar(context, 'メッセージが正常に送信されました。');
     } catch (e) {
       logger.e(e);
       if (mounted) {
-        showSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
+        showFailureSnackBar(context, 'メッセージの送信中にエラーが発生しました。');
       }
     } finally {
       setState(() {

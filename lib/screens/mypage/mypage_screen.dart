@@ -24,7 +24,7 @@ class MypageScreen extends StatelessWidget {
     } catch (e) {
       if (!context.mounted) return;
       logError(e);
-      showSnackBar(context, 'エラーが発生しました。しばらく経ってからもう一度お試しください。');
+      showFailureSnackBar(context, 'エラーが発生しました。しばらく経ってからもう一度お試しください。');
     }
   }
 
@@ -43,7 +43,7 @@ class MypageScreen extends StatelessWidget {
   void handleLogout(BuildContext context) {
     tokenStorage.deleteToken();
     userProvider.clearUser();
-    showSnackBar(context, "ログアウトしました");
+    showSuccessSnackBar(context, "ログアウトしました");
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const OnboardingScreen()),

@@ -74,14 +74,14 @@ class SignupFormState extends State<SignupForm> {
     try {
       await AccountService().signup(name, email, password);
       if (!mounted) return;
-      showSnackBar(context, 'アカウントが登録されました');
+      showSuccessSnackBar(context, 'アカウントが登録されました');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
       logError(e);
-      showSnackBar(context, "アカウントの登録に失敗しました");
+      showFailureSnackBar(context, "アカウントの登録に失敗しました");
     } finally {
       setState(() {
         _isProcessing = false;
