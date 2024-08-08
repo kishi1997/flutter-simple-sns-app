@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_sns_app/domain/post/post_entity.dart';
 import 'package:simple_sns_app/domain/post/post_service.dart';
+import 'package:simple_sns_app/screens/post/post_reply_screen.dart';
 import 'package:simple_sns_app/utils/date_utils.dart';
 import 'package:simple_sns_app/utils/icons_utils.dart';
 import 'package:simple_sns_app/utils/logger_utils.dart';
@@ -73,12 +74,21 @@ class PostTileState extends State<PostTile> {
                       Text(widget.post.body,
                           style: const TextStyle(fontSize: 16)),
                       if (!currentUserIsAuthor)
-                        Container(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Icon(MyFlutterApp.comment_empty,
-                                    color: Colors.grey, size: 16.0)))
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PostReplyScreen(
+                                        postId: widget.post.id)),
+                              );
+                            },
+                            child: Container(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Icon(MyFlutterApp.comment_empty,
+                                        color: Colors.grey, size: 16.0))))
                     ],
                   )),
                   const SizedBox(width: 12.0),
