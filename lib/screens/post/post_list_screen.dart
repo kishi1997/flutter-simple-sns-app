@@ -75,19 +75,12 @@ class PostListState extends State<PostListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppHeader(title: '投稿一覧'),
-      body: Padding(
-          padding: const EdgeInsets.only(
-            top: 0,
-            right: 24.0,
-            bottom: 24.0,
-            left: 24.0,
-          ),
-          child: RefreshIndicator(
-              color: Theme.of(context).primaryColor,
-              onRefresh: () async {
-                resetAndFetchPosts();
-              },
-              child: _buildPostListView())),
+      body: (RefreshIndicator(
+          color: Theme.of(context).primaryColor,
+          onRefresh: () async {
+            resetAndFetchPosts();
+          },
+          child: _buildPostListView())),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
